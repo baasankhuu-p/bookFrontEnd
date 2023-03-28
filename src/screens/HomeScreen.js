@@ -3,9 +3,10 @@ import { StyleSheet, ScrollView, Text } from 'react-native'
 import useCategory from '../service/useCategory'
 import { CategoryBookList, SearchBook } from '../components'
 import { BackgroundBlueColor, ErrColor } from '../Constants'
+import Spinner from '../components/useComponent/Spinner'
 export default () => {
   const [searchValue, setSearchValue] = useState('')
-  const [categories, errorMessage, searchCategory] = useCategory()
+  const [categories, errorMessage, searchCategory, loading] = useCategory()
   return (
     <ScrollView style={css.container}>
       <SearchBook
@@ -13,6 +14,7 @@ export default () => {
         onValueChange={setSearchValue}
         onFinishEnter={() => searchCategory(searchValue)}
       />
+      {loading && <Spinner />}
       {errorMessage ? (
         <Text style={css.error}>{errorMessage}</Text>
       ) : (

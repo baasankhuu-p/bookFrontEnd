@@ -19,12 +19,13 @@ export default category => {
       })
       .catch(err => {
         let message = err.message
-        if (message === 'Request failed with status code 404')
+        if (message === 'Request failed with status code 404') {
           message = 'Сервердээр алдаа гарлаа'
-        else if (message === 'Network Error')
+        } else if (message === 'Network Error') {
           message =
             'Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.'
-        setErrorMessage(message)
+          setErrorMessage(message)
+        }
       })
   }, [])
 

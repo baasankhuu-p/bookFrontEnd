@@ -8,29 +8,10 @@ import { CustomLight, HBColor, OCustomLight } from '../Constants'
 
 export default ({ book }) => {
   const navigation = useNavigation()
-  const [check, setCheck] = useState(false)
-  const [line, setLine] = useState({
-    textDecorationLine: 'line-through',
-    fontSize: 12,
-    color: 'red'
-  })
+  const [sale, setSale] = useState(false)
   useEffect(() => {
     const checkSale = book.price - book.salePrice * book.price
-    if (checkSale < book.price) {
-      setLine({
-        textDecorationLine: 'line-through',
-        fontSize: 12,
-        color: 'red'
-      })
-      setCheck(true)
-    } else {
-      setLine({
-        textDecorationLine: 'none',
-        fontSize: 13,
-        color: 'black'
-      })
-      setCheck(false)
-    }
+    checkSale < book.price ? setSale(true) : setSale(false)
   }, [book])
 
   const onPressHandler = () => {
@@ -56,16 +37,28 @@ export default ({ book }) => {
         <Text style={css.bookName}>{getTextSubst(book.bookname, 16)}</Text>
         <Text style={css.author}>{book.author}</Text>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={[css.price, line]}>{thousandify(book.price)}</Text>
-          {/* <Text style={css.rate}>{thousandify(book.averageRating)}</Text> */}
-          <Star score={book.averageRating} style={css.rate} />
+          <Text
+            style={[
+              css.price,
+              sale
+                ? {
+                    fontSize: 12,
+                    color: 'red',
+                    textDecorationLine: 'line-through'
+                  }
+                : null
+            ]}
+          >
+            {thousandify(book.price)}
+          </Text>
+          {book.averageRating >= 1 && (
+            <Star score={book.averageRating} style={css.rate} />
+          )}
         </View>
-        {check ? (
+        {sale && (
           <Text style={css.sale}>
             {thousandify(book.price - book.price * book.salePrice)}
           </Text>
-        ) : (
-          <Text style={css.sale}></Text>
         )}
       </View>
     </TouchableOpacity>

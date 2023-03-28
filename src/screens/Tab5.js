@@ -4,7 +4,7 @@ import Logo from '../components/Logo'
 import { HBColor } from '../Constants'
 import SigninScreen from './SigninScreen'
 import SignupScreen from './SignupScreen'
-import GoBack from '../components/iconComponent/GoBack'
+import GoBack from '../components/useComponent/GoBack'
 import { TouchableOpacity } from 'react-native'
 const Stack = createStackNavigator()
 
