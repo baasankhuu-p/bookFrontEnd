@@ -11,7 +11,7 @@ export default category => {
 
   useEffect(() => {
     axios
-      .get(`${RestApiUrl}/api/v1/categories/${category}/books?limit=500`)
+      .get(`${RestApiUrl}/api/categories/${category}/books?limit=500`)
       .then(result => {
         console.log('Номыг амжилттай хүлээж авлаа...')
         setBooks(result.data.data)

@@ -2,20 +2,17 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { RestApiUrl } from '../Constants'
 export default () => {
-  const [categories, setCategories] = useState([])
+  const [books, setBooks] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
-  const searchCategory = searchValue => {
-    console.log('Хайлт эхэллээ...', searchValue)
-  }
 
   useEffect(() => {
     setLoading(true)
     axios
-      .get(`${RestApiUrl}/api/categories`)
+      .get(`${RestApiUrl}/api/books`)
       .then(result => {
-        console.log('Категорийг амжилттай хүлээж авлаа...')
-        setCategories(result.data.data)
+        console.log('Номыг амжилттай хүлээж авлаа...')
+        setBooks(result.data.data)
         setErrorMessage(null)
         setLoading(false)
       })
@@ -36,5 +33,5 @@ export default () => {
       })
   }, [])
 
-  return [categories, errorMessage, searchCategory, loading]
+  return [books, errorMessage, loading]
 }

@@ -1,30 +1,26 @@
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { TextInput } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { View } from 'react-native'
 import { Text } from 'react-native'
 import { CustomLight, HBColor } from '../../Constants'
-export default ({ max, setOrder }) => {
-  const [value, setValue] = useState(0)
+export default ({ order, setOrder, max }) => {
   const decHandler = () => {
-    if (value > 0) {
-      setValue(value - 1)
+    if (order > 1) {
+      setOrder(order - 1)
     }
-    setOrder(value)
   }
   const incHandler = () => {
-    if (value < max) {
-      setValue(value + 1)
+    if (order < max) {
+      setOrder(order + 1)
     }
-    setOrder(value)
   }
   return (
     <View style={css.container}>
       <TouchableOpacity onPress={() => decHandler()}>
         <Text style={css.dec}>-</Text>
       </TouchableOpacity>
-      <Text style={css.val}>{value}</Text>
+      <Text style={css.val}>{order}</Text>
       <TouchableOpacity onPress={() => incHandler()}>
         <Text style={css.inc}>+</Text>
       </TouchableOpacity>
@@ -57,6 +53,7 @@ const css = StyleSheet.create({
     backgroundColor: 'white',
     borderTopColor: HBColor,
     borderBottomColor: HBColor,
-    fontSize: 14
+    fontSize: 15,
+    borderRadius: 2
   }
 })

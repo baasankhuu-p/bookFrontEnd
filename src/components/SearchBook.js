@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, TextInput, StyleSheet } from 'react-native'
 import { Feather } from '@expo/vector-icons'
-import { CustomBlue, OCustomGray } from '../Constants'
+import { CustomBlue, HBColor, OCustomGray } from '../Constants'
 
 export default ({ value, onValueChange, onFinishEnter }) => {
   return (
@@ -11,10 +11,10 @@ export default ({ value, onValueChange, onFinishEnter }) => {
       </View>
       <TextInput
         style={css.input}
-        laceholder='Ном хайх ..'
+        placeholder='Ном хайх ..'
         value={value}
         onChangeText={onValueChange}
-        placeholderTextColor={CustomBlue}
+        placeholderTextColor={HBColor}
         autoCapitalize='none'
         autoCorrect={false}
         onEndEditing={onFinishEnter}

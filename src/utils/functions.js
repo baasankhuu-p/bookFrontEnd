@@ -16,7 +16,7 @@ export const IconName = routeName => {
   }
 }
 //Хэт урт байвал таслах
-export const getTextSubst = (text, count) => {
+export const getTextSubst = (text, count = text.length) => {
   if (text.length <= count) {
     return text
   }
