@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
-import { TouchableOpacity } from 'react-native'
-import { View } from 'react-native'
-import { Text } from 'react-native'
+import { TouchableOpacity, Text, View, StyleSheet } from 'react-native'
 import { CustomLight, HBColor } from '../../Constants'
 export default ({ order, setOrder, max }) => {
   const decHandler = () => {

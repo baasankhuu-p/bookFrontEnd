@@ -5,11 +5,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Text,
-  View
+  View,
+  FlatList
 } from 'react-native'
 const thousandify = require('thousandify')
 import Star from 'react-native-star-view'
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons, Feather } from '@expo/vector-icons'
 import IncDecInput from '../components/useComponent/IncDecInput '
 import {
   BackgroundBlueColor,
@@ -20,7 +21,6 @@ import {
 import { getTextSubst } from '../utils/functions'
 import useComments from '../service/useComments'
 import { CommentNull } from '../components/useComponent/notfound'
-import { FlatList } from 'react-native'
 export default ({ route }) => {
   const [order, setOrder] = useState(1)
   const book = route.params.book
@@ -121,7 +121,7 @@ export default ({ route }) => {
             }}
           >
             {show ? (
-              <Text>
+              <Text style={css.text}>
                 {'  '} {book.content}(
                 <Text
                   style={{
@@ -152,9 +152,21 @@ export default ({ route }) => {
           </TouchableOpacity>
         </View>
         <View style={[css.containheader, css.comment]}>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, color: HBColor }}>
-            Сэтгэгдэл:{' '}
-          </Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <Text style={{ fontWeight: 'bold', fontSize: 18, color: HBColor }}>
+              Сэтгэгдэл:{' '}
+            </Text>
+            <TouchableOpacity>
+              <Feather name='edit' size={24} color={HBColor} />
+            </TouchableOpacity>
+          </View>
           <View>
             {comments.length > 0 ? (
               <FlatList

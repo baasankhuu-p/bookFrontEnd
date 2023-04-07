@@ -1,14 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
-import { TouchableOpacity } from 'react-native'
-import { StyleSheet, View, FlatList, Text } from 'react-native'
 import {
-  CustomBlue,
-  CustomLight,
-  HBColor,
-  HBWhite,
-  OpacityHBColor
-} from '../Constants'
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  TouchableOpacity
+} from 'react-native'
+import { CustomBlue, CustomLight, HBColor, HBWhite } from '../Constants'
 import useCategoryBooks from '../service/useCategoryBooks'
 import { getTextSubst } from '../utils/functions'
 import BookItem from './BookItem'

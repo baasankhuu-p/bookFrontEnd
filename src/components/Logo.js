@@ -1,7 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { TouchableOpacity } from 'react-native'
-import { StyleSheet } from 'react-native'
-import { Image } from 'react-native'
+import { TouchableOpacity, Image, StyleSheet } from 'react-native'
 
 export default () => {
   const navigation = useNavigation()

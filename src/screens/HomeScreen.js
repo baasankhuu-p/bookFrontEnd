@@ -1,12 +1,24 @@
-import React, { useState } from 'react'
-import { StyleSheet, ScrollView, Text } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, ScrollView, View } from 'react-native'
+import { Toast } from 'react-native-toast-message/lib/src/Toast'
 import useCategory from '../service/useCategory'
 import { CategoryBookList, SearchBook } from '../components'
 import { BackgroundBlueColor, ErrColor } from '../Constants'
 import Spinner from '../components/useComponent/Spinner'
+import toastInfo from '../components/useComponent/toastInfo'
 export default () => {
   const [searchValue, setSearchValue] = useState('')
   const [categories, errorMessage, searchCategory, loading] = useCategory()
+  useEffect(() => {
+    toastSet()
+  }, [errorMessage, searchCategory])
+  const toastSet = () => {
+    if (errorMessage) {
+      Toast.show(toastInfo('error', errorMessage, 3000))
+    } else if (categories.length > 0) {
+      Toast.show(toastInfo('success', '👋👋👋', 3000))
+    }
+  }
   return (
     <ScrollView style={css.container}>
       <SearchBook
@@ -14,10 +26,10 @@ export default () => {
         onValueChange={setSearchValue}
         onFinishEnter={() => searchCategory(searchValue)}
       />
+
+      <Toast ref={ref => Toast.setRef(ref)} />
       {loading && <Spinner />}
-      {errorMessage ? (
-        <Text style={css.error}>{errorMessage}</Text>
-      ) : (
+      {categories &&
         categories.map(category => (
           <CategoryBookList
             searchValue={searchValue}
@@ -25,8 +37,7 @@ export default () => {
             style={{ marginVertical: 10 }}
             data={category}
           />
-        ))
-      )}
+        ))}
     </ScrollView>
   )
 }

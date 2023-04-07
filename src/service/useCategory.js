@@ -29,12 +29,11 @@ export default () => {
             'Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.'
           setLoading(false)
         } else {
-          message = 'Алдаа гарлаа' + err
+          message = 'Алдаа гарлаа ' + err
           setErrorMessage(message)
           setLoading(false)
         }
       })
   }, [])
-
   return [categories, errorMessage, searchCategory, loading]
 }

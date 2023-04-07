@@ -1,19 +1,18 @@
 import React from 'react'
+import { TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import HomeScreen from './HomeScreen'
+import { BookInfoScreen, HomeScreen } from './'
 import Logo from '../components/Logo'
 import { CustomLight, HBColor } from '../Constants'
-import BookScreen from './BookInfoScreen'
-import { TouchableOpacity } from 'react-native'
 import GoBack from '../components/useComponent/GoBack'
 import backAlert from '../components/useComponent/backAlert'
-import { useNavigation } from '@react-navigation/native'
 const Stack = createStackNavigator()
 
 export default () => {
   const navigation = useNavigation()
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='Home'>
       <Stack.Screen
         name='Home'
         component={HomeScreen}
@@ -25,7 +24,7 @@ export default () => {
       />
       <Stack.Screen
         name='Book'
-        component={BookScreen}
+        component={BookInfoScreen}
         options={{
           headerTitle: () => <Logo />,
           headerTitleAlign: 'center',

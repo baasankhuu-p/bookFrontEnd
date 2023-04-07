@@ -1,11 +1,10 @@
 import React from 'react'
+import { TouchableOpacity } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Logo from '../components/Logo'
 import { HBColor } from '../Constants'
-import SigninScreen from './SigninScreen'
-import SignupScreen from './SignupScreen'
+import { SigninScreen, SignupScreen } from './'
 import GoBack from '../components/useComponent/GoBack'
-import { TouchableOpacity } from 'react-native'
 const Stack = createStackNavigator()
 
 export default ({ navigation }) => {

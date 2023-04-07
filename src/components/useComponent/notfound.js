@@ -1,8 +1,5 @@
-import { Image } from 'react-native'
-import { StyleSheet } from 'react-native'
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import { HBColor } from '../../Constants'
-
 export function BookSearchNotFound () {
   return (
     <View style={css.container}>
@@ -24,6 +21,7 @@ export function CommentNull (style = '') {
 export function OrderNull () {
   return (
     <View style={css.container}>
+      <Text></Text>
       <Image
         style={css.icon}
         source={require('../../assets/image/png/orderempty.webp')}

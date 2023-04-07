@@ -1,36 +1,34 @@
-import React from 'react'
-import { Text } from 'react-native'
-import { StyleSheet } from 'react-native'
-import { ScrollView } from 'react-native'
-import { CustomLight, HBColor, HBWhite } from '../Constants'
-import useBooks from '../service/useBooks'
-import BookItem from './../components/BookItem'
-import Spinner from '../components/useComponent/Spinner'
-import SearchBook from '../components/SearchBook'
-import { View } from 'react-native'
-import { useState } from 'react'
-import { BookSearchNotFound } from '../components/useComponent/notfound'
+import React, { useState } from 'react' //React librarr using
+import { Text, StyleSheet, ScrollView, View } from 'react-native' //reactnaitve-iin (core) component-uud
+import { CustomLight, HBColor, HBWhite } from '../Constants' // Uund programmdaa ashglah undsen unguud bolon API hostoo tohiruulj ogsn
+import useBooks from '../service/useBooks' //API-tai haritsah code
+import BookItem from './../components/BookItem' // hereglegchiin component->Nom bolgoniig neg component bolgoj avsn
+import Spinner from '../components/useComponent/Spinner' //  hereglegchiin component ->reload hiij bhd tur huleene uu gesen achaalliig haruulah
+import SearchBook from '../components/SearchBook' // hereglegchiin component->nom haih
+import { BookSearchNotFound } from '../components/useComponent/notfound' // hereglegchiin component->hooson uyd delgetsiig hooson gesn message-tei delgetseer duurgeh
 export default () => {
-  const [books, error, loading] = useBooks()
-  const [searchValue, setSearchValue] = useState('')
+  const [books, error, loading] = useBooks() //API-d bolovsruulalt hiij butsaah datag huvisagechidd hadgalj baina
+  const [searchValue, setSearchValue] = useState('') //Hailtiin utgiig hadgalah state
   if (error) {
+    //aldaa baival aldaanii text haruulna
     return (
       <Text style={{ color: 'red', margin: 30 }}>Алдаа гарлаа! {error}</Text>
     )
   }
-  const filterBooks = books.filter(el => el.bookname.includes(searchValue))
-  console.log(filterBooks)
+  const filterBooks = books.filter(el => el.bookname.includes(searchValue)) //Hailt hiij bn filter, Include functs ni javascript-n san bogood filter ni shuuj avah include ni tuhain ogogdol dotor ene temdegt baina uu gesen shalgaltiig hiih uuregtei
   if (!books) {
-    return null
+    //nom baihgui bol BookSearchNotFound gesen hereglegchiin componentiig delgetsend zurna
+    return <BookSearchNotFound />
   }
   return (
+    //Datagaa haruulj bui baidal
     <View>
       <SearchBook value={searchValue} onValueChange={setSearchValue} />
       <ScrollView style={{ flexDirection: 'column', marginBottom: '20%' }}>
         {loading && <Spinner />}
         {filterBooks.length > 0 ? (
           filterBooks.map((item, index) => (
-            <BookItem
+            <BookItem // Bookitem ni hereglegchiin component bogood props-oor book,key,style,content-g damjuulna
               book={item}
               key={index}
               style={itemCss}
@@ -38,7 +36,7 @@ export default () => {
             />
           ))
         ) : (
-          <BookSearchNotFound />
+          <BookSearchNotFound /> //nom baihgui bol BookSearchNotFound gesen hereglegchiin componentiig delgetsend zurna
         )}
       </ScrollView>
     </View>
