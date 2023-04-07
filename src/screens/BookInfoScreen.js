@@ -9,7 +9,7 @@ import {
   FlatList
 } from 'react-native'
 const thousandify = require('thousandify')
-import Star from 'react-native-star-view'
+import Star from 'react-native-star-view/lib/Star'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
 import IncDecInput from '../components/useComponent/IncDecInput '
 import {

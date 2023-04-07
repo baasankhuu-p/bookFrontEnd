@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
+import React, { useState, useEffect, useContext } from 'react'
+import { StyleSheet, ScrollView } from 'react-native'
 import { Toast } from 'react-native-toast-message/lib/src/Toast'
 import useCategory from '../service/useCategory'
 import { CategoryBookList, SearchBook } from '../components'
 import { BackgroundBlueColor, ErrColor } from '../Constants'
 import Spinner from '../components/useComponent/Spinner'
 import toastInfo from '../components/useComponent/toastInfo'
+import UserContext from '../context/userContext'
 export default () => {
   const [searchValue, setSearchValue] = useState('')
   const [categories, errorMessage, searchCategory, loading] = useCategory()
+  const state = useContext(UserContext)
+  console.log('=>', state.isUsersRole)
   useEffect(() => {
     toastSet()
   }, [errorMessage, searchCategory])
@@ -26,7 +29,6 @@ export default () => {
         onValueChange={setSearchValue}
         onFinishEnter={() => searchCategory(searchValue)}
       />
-
       <Toast ref={ref => Toast.setRef(ref)} />
       {loading && <Spinner />}
       {categories &&

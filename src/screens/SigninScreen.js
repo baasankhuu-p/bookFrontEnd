@@ -1,8 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { View, Text, Image, StyleSheet, ScrollView, Switch } from 'react-native'
-import Toast from 'react-native-toast-message'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import axios from 'axios'
 import {
   CustomBlue,
   CustomBrown,
@@ -13,63 +10,16 @@ import {
 } from '../Constants'
 import { MyTextInput } from '../components'
 import MyToachableBtn from '../components/MyToachableBtn'
-import toastInfo from '../components/useComponent/toastInfo'
+import UserContext from '../context/userContext'
 export default ({ navigation }) => {
-  //Admin,operator || Customer
-  const [isRole, setIsRole] = useState(false)
-  const toggleSwitch = () => setIsRole(previousState => !previousState)
-  //Input variables
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [token, setToken] = useState('')
-  AsyncStorage.getItem('token')
-    .then(result => setToken(result))
-    .catch(err => console.log(err.message))
+  const state = useContext(UserContext)
+  const [email, setEmail] = useState('admin@gmail.com')
+  const [password, setPassword] = useState('1234')
   const onHandlerSignin = () => {
     if (email == '' || password == '') {
-      // Toast.show(toastInfo('error', 'Мэдээллээ бүрэн бөглөнө үү ⚠', 5000))
-      console.log('Мэдээллээ бүрэн бөглөнө үү ⚠')
+      console.log('Мэдээллээ бүрэн бөглөнө үү ⚠....')
     }
-    if (isRole) {
-      axios
-        .post(`${RestApiUrl}/api/manage/login`, {
-          email: email.trim(),
-          password: password.trim()
-        })
-        .then(result => {
-          console.log(result.data)
-          AsyncStorage.setItem('token', result.data.token)
-            .then(result => {
-              console.log('токенийг хадгаллаа..')
-            })
-            .catch(err => {
-              console.log('Токен хадгалж чадсангүй.')
-            })
-          return console.log('Токен хадгалж чадсангүй.')
-        })
-        .catch(err => {
-          return console.log('Нэвтрэх явцад алдаа гарлаа')
-        })
-    } else {
-      axios
-        .post(`${RestApiUrl}/api/customer/login`, {
-          email: email.trim(),
-          password: password.trim()
-        })
-        .then(result => {
-          AsyncStorage.setItem('custom_token', result.data.token)
-            .then(result => {
-              console.log('токенийг хадгаллаа..')
-            })
-            .catch(err => {
-              console.log('Токен хадгалж чадсангүй..')
-            })
-          return console.log('Амжилттай бүртгэлээ..')
-        })
-        .catch(err => {
-          return console.log('Нэвтрэх явцад алдаа гарлаа')
-        })
-    }
+    state.signin(email, password)
   }
   return (
     <ScrollView style={css.container}>
@@ -81,20 +31,22 @@ export default ({ navigation }) => {
       <View style={css.switch}>
         <Switch
           trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isRole ? CustomLight : HBColor}
-          onValueChange={toggleSwitch}
-          value={isRole}
+          thumbColor={state.isManageRole ? CustomLight : HBColor}
+          onValueChange={state.toggleSwitch}
+          value={state.isManageRole}
         />
         <Text style={css.manage}>Удирдлагын эрх</Text>
       </View>
       <MyTextInput
         onChangeText={setEmail}
+        value={email}
         autoCapitalize='none'
         placeholder='Имейл хаягаа оруулна уу'
         style={css.input}
       />
       <MyTextInput
         onChangeText={setPassword}
+        value={password}
         autoCapitalize='none'
         secureTextEntry={true}
         placeholder='Нууц үгээ оруулна уу'

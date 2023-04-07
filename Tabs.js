@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome } from '@expo/vector-icons'
 import { Tab1, Tab2, Tab3, Tab4, Tab5 } from './src/screens'
 import { CustomLight, HBColor, OCustomLight } from './src/Constants'
 import { IconName } from './src/utils/functions'
+import UserContext from './src/context/userContext'
 
 const Tab = createBottomTabNavigator()
 
 export default () => {
+  const state = useContext(UserContext)
+  console.log(state)
   return (
     <NavigationContainer>
       <Tab.Navigator

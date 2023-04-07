@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Text, Image, StyleSheet, ScrollView, View } from 'react-native'
 import Toast from 'react-native-toast-message'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
 import {
   CustomBlue,
@@ -14,16 +12,17 @@ import {
 import { MyTextInput } from '../components'
 import MyToachableBtn from '../components/MyToachableBtn'
 import toastInfo from '../components/useComponent/toastInfo'
+import UserContext from '../context/userContext'
 export default () => {
   const navigation = useNavigation()
-  const [lastName, setLastname] = useState('')
-  const [firstName, setFirstname] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState(0)
-  const [password, setPassword] = useState('')
-  const [confirmPass, setConfirmPass] = useState('')
-  const [address, setAddress] = useState('')
-
+  const [lastName, setLastname] = useState('Purev')
+  const [firstName, setFirstname] = useState('Baaskaa')
+  const [email, setEmail] = useState('purevbaasankhuu@gmail.com')
+  const [phone, setPhone] = useState('99455432')
+  const [password, setPassword] = useState('1234')
+  const [confirmPass, setConfirmPass] = useState('1234')
+  const [address, setAddress] = useState('Bayangokl')
+  const state = useContext(UserContext)
   const onHandlerSignup = () => {
     if (
       lastName == '' ||
@@ -40,40 +39,7 @@ export default () => {
         toastInfo('error', 'Нууц үг хоорондоо таарахгүй байна 🔐', 5000)
       )
     }
-    axios
-      .post(`${RestApiUrl}/api/customer/register`, {
-        fname: firstName.trim(),
-        lname: lastName.trim(),
-        email: email.trim(),
-        phone: phone.trim(),
-        password: password.trim(),
-        address: address.trim()
-      })
-      .then(result => {
-        console.log(result.data)
-        AsyncStorage.setItem('token', result.data.token)
-          .then(result => {
-            Toast.show(toastInfo('success', `токенийг хадгаллаа..`, 5000))
-            navigation.navigate('Home')
-          })
-          .catch(err => {
-            Toast.show(
-              toastInfo('error', `Токен хадгалж чадсангүй. Шалтгаан..`, 5000)
-            )
-            console.log('Токен хадгалж чадсангүй. Шалтгаан :' + err.message)
-          })
-        return Toast.show(toastInfo('success', `Амжилттай бүртгэлээ`, 5000))
-      })
-      .catch(err => {
-        return Toast.show(
-          toastInfo(
-            'error',
-            'Бүртгэх явцад алдаа гарлаа',
-            5000,
-            ` ${err.response.data.message}`
-          )
-        )
-      })
+    state.signup(firstName, lastName, email, phone, password, address)
   }
   return (
     <ScrollView style={css.container}>
@@ -88,12 +54,14 @@ export default () => {
         autoCapitalize='none'
         placeholder='Эцгийн нэрээ оруулна уу'
         style={css.input}
+        value={lastName}
       />
       <MyTextInput
         onChangeText={setFirstname}
         autoCapitalize='none'
         placeholder='Нэрээ оруулна уу'
         style={css.input}
+        value={firstName}
       />
       <MyTextInput
         onChangeText={setEmail}
@@ -101,6 +69,7 @@ export default () => {
         keyboardType='email-address'
         placeholder='Имейл хаягаа оруулна уу'
         style={css.input}
+        value={email}
       />
 
       <MyTextInput
@@ -109,6 +78,7 @@ export default () => {
         keyboardType='phone-pad'
         placeholder='Утасны дугаараа оруулна уу'
         style={css.input}
+        value={phone}
       />
       <MyTextInput
         onChangeText={setPassword}
@@ -116,6 +86,7 @@ export default () => {
         secureTextEntry={true}
         placeholder='Нууц үгээ оруулна уу'
         style={css.input}
+        value={password}
       />
       <MyTextInput
         onChangeText={setConfirmPass}
@@ -123,12 +94,14 @@ export default () => {
         secureTextEntry={true}
         placeholder='Дахин нууц үгээ оруулна уу'
         style={css.input}
+        value={confirmPass}
       />
       <MyTextInput
         onChangeText={setAddress}
         autoCapitalize='none'
         placeholder='Гэрийн хаягаа оруулна уу'
         style={css.input}
+        value={address}
       />
       <MyToachableBtn
         title='Бүртгүүлэх'
