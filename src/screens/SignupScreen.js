@@ -1,31 +1,28 @@
 import React, { useContext, useState } from 'react'
 import { Text, Image, StyleSheet, ScrollView, View } from 'react-native'
-import Toast from 'react-native-toast-message'
 import { useNavigation } from '@react-navigation/native'
 import {
   CustomBlue,
   CustomBrown,
   HBColor,
-  RestApiUrl,
   BackgroundBlueColor
 } from '../Constants'
 import { MyTextInput } from '../components'
 import MyToachableBtn from '../components/MyToachableBtn'
-import toastInfo from '../components/useComponent/toastInfo'
 import UserContext from '../context/userContext'
 export default () => {
   const navigation = useNavigation()
-  const [lastName, setLastname] = useState('Purev')
-  const [firstName, setFirstname] = useState('Baaskaa')
-  const [email, setEmail] = useState('purevbaasankhuu@gmail.com')
-  const [phone, setPhone] = useState('99455432')
-  const [password, setPassword] = useState('1234')
-  const [confirmPass, setConfirmPass] = useState('1234')
-  const [address, setAddress] = useState('Bayangokl')
+  const [lastName, setLastname] = useState('testLastName')
+  const [firstName, setFirstname] = useState('testName')
+  const [email, setEmail] = useState('test@gmail.com')
+  const [phone, setPhone] = useState('95959595')
+  const [password, setPassword] = useState('12345678')
+  const [confirmPass, setConfirmPass] = useState('12345678')
+  const [address, setAddress] = useState('test address test')
   const state = useContext(UserContext)
   const onHandlerSignup = () => {
     if (
-      lastName == '' ||
+      lastName.trim() == '' ||
       firstName == '' ||
       email == '' ||
       phone == '' ||
@@ -33,11 +30,9 @@ export default () => {
       confirmPass == '' ||
       address == ''
     ) {
-      Toast.show(toastInfo('error', 'Мэдээллээ бүрэн бөглөнө үү ⚠', 5000))
+      console.log('Мэдээллээ бүрэн бөглөнө үү ⚠')
     } else if (password != confirmPass) {
-      Toast.show(
-        toastInfo('error', 'Нууц үг хоорондоо таарахгүй байна 🔐', 5000)
-      )
+      console.log('Нууц үг хоорондоо таарахгүй байна 🔐')
     }
     state.signup(firstName, lastName, email, phone, password, address)
   }
@@ -47,7 +42,6 @@ export default () => {
         style={css.image}
         source={require('../assets/image/png/Signup.png')}
       />
-
       <Text style={css.heading}>Онлайн номын дэлгүүрт тавтай морилно уу.</Text>
       <MyTextInput
         onChangeText={setLastname}
@@ -71,7 +65,6 @@ export default () => {
         style={css.input}
         value={email}
       />
-
       <MyTextInput
         onChangeText={setPhone}
         autoCapitalize='none'
@@ -115,7 +108,6 @@ export default () => {
           navigation.navigate('Signin')
         }}
       />
-      <Toast ref={ref => Toast.setRef(ref)} />
     </ScrollView>
   )
 }

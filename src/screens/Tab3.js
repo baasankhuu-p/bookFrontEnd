@@ -6,7 +6,7 @@ import OrderScreen from './OrderScreen'
 export default ({ navigation }) => {
   const Stack = createStackNavigator()
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='Orders'>
       <Stack.Screen
         name='Orders'
         component={OrderScreen}

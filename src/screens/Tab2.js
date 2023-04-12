@@ -6,7 +6,7 @@ import { BookScreen } from './'
 export default ({ navigation }) => {
   const Stack = createStackNavigator()
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='Books'>
       <Stack.Screen
         name='Books'
         component={BookScreen}

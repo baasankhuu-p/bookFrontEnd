@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import {
   Image,
   ScrollView,
@@ -6,35 +6,79 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList
+  FlatList,
+  TextInput
 } from 'react-native'
 const thousandify = require('thousandify')
 import Star from 'react-native-star-view/lib/Star'
-import { MaterialIcons, Feather } from '@expo/vector-icons'
+import { Rating } from 'react-native-ratings'
+import { Toast } from 'react-native-toast-message/lib/src/Toast'
+import { useNavigation } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons'
 import IncDecInput from '../components/useComponent/IncDecInput '
 import {
   BackgroundBlueColor,
+  CustomLight,
   HBColor,
   HBWhite,
   OCustomGray
 } from '../Constants'
-import { getTextSubst } from '../utils/functions'
-import useComments from '../service/useComments'
+import { getTextSubst, toastInfo } from '../utils/functions'
+import { GetComment, WriteComment } from '../service/customer/useComments'
 import { CommentNull } from '../components/useComponent/notfound'
+import UserContext from '../context/userContext'
 export default ({ route }) => {
+  const state = useContext(UserContext)
+  const [comments, setComments] = useState([])
+  const [toastMsg, setToastMsg] = useState(null)
   const [order, setOrder] = useState(1)
   const book = route.params.book
-  const [comments, error] = useComments(book.id)
   const [sale, setSale] = useState(false)
   const [show, setShow] = useState(false)
-  if (error) {
-    return (
-      <Text style={{ color: 'red', margin: 30 }}>Алдаа гарлаа! {error}</Text>
-    )
-  }
+  const navigation = useNavigation()
   useEffect(() => {
+    //GET COMMENT
+    GetComment(book._id).then(result => { setComments(result.data.comment) }).catch(err => {
+      setToastMsg({
+        type: 'error', msg: err.response.data.message
+      })
+    })
     book.salePrice > 0 ? setSale(true) : setSale(false)
-  }, [route])
+    //item load
+  }, [route, onHandlerOrder, toastMsg])
+  useEffect(() => {
+    toastMsgFnc(toastMsg);
+  }, [toastMsg])
+  const onHandlerOrder = order => {
+    setOrder(1)
+  }
+
+  //COMMENT WRITE
+  const [commentCustomer, setCommentCustomer] = useState('')
+  const [rateCustomer, setRateCusomter] = useState(0)
+  const sendComment = () => {
+    const token = state.token
+    WriteComment(book._id, rateCustomer, commentCustomer, token)
+      .then(result => {
+        setToastMsg({
+          type: 'success', msg: 'Сэтгэгдлийг амжилттай илгээлээ'
+        })
+        state.setOverread(!state.Overread)
+      })
+      .catch(err => {
+        setToastMsg({
+          type: 'error', msg: err.response.data.message
+        })
+      });
+    setCommentCustomer('')
+    setRateCusomter(0)
+  }
+  const toastMsgFnc = (toastMsg) => {
+    if (toastMsg) {
+      Toast.show(toastInfo(toastMsg.type, toastMsg.msg, 2000))
+    }
+    setToastMsg(null)
+  }
   return (
     <ScrollView style={css.container}>
       <View style={css.contain}>
@@ -73,13 +117,13 @@ export default ({ route }) => {
                   css.infoVal,
                   sale
                     ? {
-                        fontSize: 12,
-                        color: 'red',
-                        textDecorationLine: 'line-through'
-                      }
+                      fontSize: 12,
+                      color: 'red',
+                      textDecorationLine: 'line-through'
+                    }
                     : {
-                        color: 'green'
-                      }
+                      color: 'green'
+                    }
                 ]}
               >
                 {thousandify(book.price)} ₮
@@ -107,8 +151,8 @@ export default ({ route }) => {
           <View>
             <IncDecInput max={book.count} order={order} setOrder={setOrder} />
           </View>
-          <TouchableOpacity onPress={() => console.log(order)}>
-            <MaterialIcons name='bookmark-border' size={26} color={HBColor} />
+          <TouchableOpacity onPress={() => onHandlerOrder(order)}>
+            <Ionicons name='cart' size={26} color={HBColor} />
           </TouchableOpacity>
         </View>
         <View style={[css.containheader, css.content]}>
@@ -163,9 +207,6 @@ export default ({ route }) => {
             <Text style={{ fontWeight: 'bold', fontSize: 18, color: HBColor }}>
               Сэтгэгдэл:{' '}
             </Text>
-            <TouchableOpacity>
-              <Feather name='edit' size={24} color={HBColor} />
-            </TouchableOpacity>
           </View>
           <View>
             {comments.length > 0 ? (
@@ -197,10 +238,80 @@ export default ({ route }) => {
             )}
           </View>
         </View>
+        {/* Comment bichih */}
+        {state.isLogin && (
+          <View style={css.commentWrite}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                paddingVertical: 10
+              }}
+            >
+              <Text
+                style={{ fontWeight: 'bold', color: HBColor, fontSize: 15 }}
+              >
+                {' '}
+                Үнэлгээ:{' '}
+              </Text>
+              <Rating
+                type='custom'
+                ratingColor='#FF8F15'
+                imageSize={20}
+                startingValue={rateCustomer}
+                onFinishRating={setRateCusomter}
+              />
+            </View>
+            <TextInput
+              editable
+              multiline
+              numberOfLines={4}
+              maxLength={500}
+              onChangeText={text => setCommentCustomer(text)}
+              value={commentCustomer}
+              placeholder='Сэтгэгдлээ бичнэ үү..'
+              placeholderTextColor={HBColor}
+              style={{
+                paddingBottom: 50,
+                backgroundColor: CustomLight,
+                borderRadius: 10,
+                borderWidth: 1,
+                paddingHorizontal: 10,
+                borderColor: OCustomGray
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => sendComment()}
+              style={{
+                position: 'relative',
+                marginVertical: 10,
+                paddingVertical: 10
+              }}
+            >
+              <Text
+                style={{
+                  position: 'absolute',
+                  right: 10,
+                  top: 0,
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  paddingVertical: 5,
+                  paddingHorizontal: 15,
+                  backgroundColor: HBColor,
+                  color: CustomLight,
+                  borderRadius: 2
+                }}
+              >
+                Илгээх
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </ScrollView>
   )
 }
+
 const css = StyleSheet.create({
   container: {
     backgroundColor: BackgroundBlueColor,
@@ -305,5 +416,12 @@ const css = StyleSheet.create({
     marginHorizontal: 5,
     fontSize: 18
   },
-  commentwrite: {}
+  commentWrite: {
+    flex: 1,
+    marginHorizontal: 10,
+    marginBottom: 30,
+    backgroundColor: CustomLight,
+    padding: 20,
+    borderRadius: 10
+  }
 })

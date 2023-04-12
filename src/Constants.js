@@ -1,6 +1,8 @@
-// export const RestApiUrl = 'http://192.168.66.163:5000'
-export const RestApiUrl = 'http:/10.10.202.26:5000'
+// export const RestApiUrl = 'http://192.168.43.235:5001'
+// export const RestApiUrl = 'http://192.168.8.4:5001'
+export const RestApiUrl = 'http://10.10.201.114:5001'
 export const ApiRoute = 'D:/MUIS/Report 2023/BookApi'
+
 export const ErrColor = 'rgb(184, 61, 70)'
 export const BackgroundBlueColor = 'rgb(236, 240, 241)'
 export const HBColor = '#3b5274'

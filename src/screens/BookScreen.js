@@ -5,7 +5,7 @@ import useBooks from '../service/useBooks' //API-tai haritsah code
 import BookItem from './../components/BookItem' // hereglegchiin component->Nom bolgoniig neg component bolgoj avsn
 import Spinner from '../components/useComponent/Spinner' //  hereglegchiin component ->reload hiij bhd tur huleene uu gesen achaalliig haruulah
 import SearchBook from '../components/SearchBook' // hereglegchiin component->nom haih
-import { BookSearchNotFound } from '../components/useComponent/notfound' // hereglegchiin component->hooson uyd delgetsiig hooson gesn message-tei delgetseer duurgeh
+import { BookSearchNotFound } from '../components/useComponent/notfound'
 export default () => {
   const [books, error, loading] = useBooks() //API-d bolovsruulalt hiij butsaah datag huvisagechidd hadgalj baina
   const [searchValue, setSearchValue] = useState('') //Hailtiin utgiig hadgalah state
@@ -16,10 +16,6 @@ export default () => {
     )
   }
   const filterBooks = books.filter(el => el.bookname.includes(searchValue)) //Hailt hiij bn filter, Include functs ni javascript-n san bogood filter ni shuuj avah include ni tuhain ogogdol dotor ene temdegt baina uu gesen shalgaltiig hiih uuregtei
-  if (!books) {
-    //nom baihgui bol BookSearchNotFound gesen hereglegchiin componentiig delgetsend zurna
-    return <BookSearchNotFound />
-  }
   return (
     //Datagaa haruulj bui baidal
     <View>

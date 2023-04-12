@@ -7,7 +7,14 @@ const Spinner = ({ showText = true }) => {
     <View style={{ alignItems: 'center', marginVertical: 10 }}>
       <UIActivityIndicator color={HBColor} />
       {showText && (
-        <Text style={{ top: 10, fontWeight: 'bold', fontSize: 18 }}>
+        <Text
+          style={{
+            top: 10,
+            fontWeight: 'bold',
+            fontSize: 12,
+            color: HBColor
+          }}
+        >
           Түр хүлээнэ үү...
         </Text>
       )}

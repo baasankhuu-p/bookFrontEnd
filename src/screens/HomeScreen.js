@@ -5,23 +5,11 @@ import useCategory from '../service/useCategory'
 import { CategoryBookList, SearchBook } from '../components'
 import { BackgroundBlueColor, ErrColor } from '../Constants'
 import Spinner from '../components/useComponent/Spinner'
-import toastInfo from '../components/useComponent/toastInfo'
+import { toastInfo } from '../utils/functions'
 import UserContext from '../context/userContext'
 export default () => {
   const [searchValue, setSearchValue] = useState('')
   const [categories, errorMessage, searchCategory, loading] = useCategory()
-  const state = useContext(UserContext)
-  console.log('=>', state.isUsersRole)
-  useEffect(() => {
-    toastSet()
-  }, [errorMessage, searchCategory])
-  const toastSet = () => {
-    if (errorMessage) {
-      Toast.show(toastInfo('error', errorMessage, 3000))
-    } else if (categories.length > 0) {
-      Toast.show(toastInfo('success', '👋👋👋', 3000))
-    }
-  }
   return (
     <ScrollView style={css.container}>
       <SearchBook
@@ -29,7 +17,6 @@ export default () => {
         onValueChange={setSearchValue}
         onFinishEnter={() => searchCategory(searchValue)}
       />
-      <Toast ref={ref => Toast.setRef(ref)} />
       {loading && <Spinner />}
       {categories &&
         categories.map(category => (

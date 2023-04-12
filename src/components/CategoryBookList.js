@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import {
   StyleSheet,
@@ -9,12 +9,29 @@ import {
 } from 'react-native'
 import { CustomBlue, CustomLight, HBColor, HBWhite } from '../Constants'
 import useCategoryBooks from '../service/useCategoryBooks'
-import { getTextSubst } from '../utils/functions'
+import { getTextSubst, toastInfo } from '../utils/functions'
 import BookItem from './BookItem'
+import { Toast } from 'react-native-toast-message/lib/src/Toast'
+import { useContext } from 'react'
+import UserContext from '../context/userContext'
 
 export default ({ data, searchValue }) => {
+  const state = useContext(UserContext);
   const [show, setShow] = useState(false)
-  const [books, errorMessage, searchBook] = useCategoryBooks(data.id)
+  const [books, setBooks] = useState([]);
+  const [toastMsg, setToastMsg] = useState(null)
+  useEffect(() => {
+    useCategoryBooks(data.id)
+      .then(result => setBooks(result.data.data))
+      .catch(err => {
+        setToastMsg({ type: 'error', msg: err.response.data.message })
+      })
+  }, [state.Overread])
+  useEffect(() => {
+    if (toastMsg && toastMsg.type)
+      Toast.show(toastInfo(toastMsg.type, toastMsg.msg, 4000))
+    setToastMsg(null)
+  }, [toastMsg])
   const filterBooks = books.filter(el => el.bookname.includes(searchValue))
   return filterBooks.length > 0 ? (
     <View>
@@ -57,9 +74,7 @@ export default ({ data, searchValue }) => {
             </Text>
           )}
         </TouchableOpacity>
-        {errorMessage ? (
-          <Text style={css.error}>{errorMessage}</Text>
-        ) : (
+        {
           <FlatList
             style={{ overflow: 'hidden' }}
             horizontal
@@ -68,11 +83,11 @@ export default ({ data, searchValue }) => {
               <BookItem book={item} style={itemCss} textLen={16} />
             )}
           />
-        )}
+        }
       </View>
     </View>
   ) : (
-    <View></View>
+    <></>
   )
 }
 
@@ -95,13 +110,6 @@ const css = StyleSheet.create({
     fontSize: 12,
     color: CustomBlue,
     paddingTop: 5
-  },
-  error: {
-    color: '#e02130',
-    marginHorizontal: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 15
   }
 })
 const itemCss = StyleSheet.create({

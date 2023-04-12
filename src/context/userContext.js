@@ -3,13 +3,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { RestApiUrl } from '../Constants'
 export const UserStore = props => {
-  const [isLogin, setIsLogin] = useState(null)
+  //Systemd ymar negen hereglegch nevtersen eshiig shalgah boolean
+  const [isLogin, setIsLogin] = useState(false)
+  //Hereglegchiig tanih medeelluud
   const [token, setToken] = useState(null)
   const [isManageRole, setisManageRole] = useState(false)
-  const [isUsersRole, setisUsersRole] = useState(null)
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
+  //Context acaallah uyd reload haruulah zorilgotoi boolean oruulj ogsn
+  const [isLoading, setIsLoading] = useState(true)
+  //hereglegchiin medeelliig nevterhed hadgalaad avna
+  const [userInfo, setUserInfo] = useState({})
+  // Overread
+  const [Overread, setOverread] = useState(false)
   const toggleSwitch = () => setisManageRole(previousState => !previousState)
+
   const signin = (email, password) => {
     if (isManageRole) {
       axios
@@ -18,8 +26,12 @@ export const UserStore = props => {
           password: password ? password.trim() : password
         })
         .then(result => {
-          setisUsersRole(result.data.user.roler)
-          loginUserSuccessful(result.data.token, email, password)
+          loginUserSuccessful(
+            result.data.token,
+            email,
+            password,
+            result.data.user
+          )
         })
         .catch(err => {
           loginFailed(err.message)
@@ -32,11 +44,16 @@ export const UserStore = props => {
           password: password ? password.trim() : password
         })
         .then(result => {
-          setisUsersRole('customer')
-          loginUserSuccessful(result.data.token, email, password)
+          console.log('Амжилттай нэвтэрлээ')
+          loginUserSuccessful(
+            result.data.token,
+            email,
+            password,
+            result.data.customers
+          )
         })
         .catch(err => {
-          loginFailed(err.message)
+          loginFailed(err.response.data.message)
           console.log('Нэвтрэх явцад алдаа гарлаа.....')
         })
     }
@@ -53,26 +70,29 @@ export const UserStore = props => {
       })
       .then(result => {
         console.log(`Амжилттай бүртгэлээ`)
-        loginUserSuccessful(result.data.token, email, password)
+        loginUserSuccessful(
+          result.data.token,
+          email,
+          password,
+          result.data.customers
+        )
       })
       .catch(err => {
-        console.log('Бүртгэх явцад алдаа гарлаа')
-        loginFailed(err.message)
+        loginFailed(err.response.data.message)
       })
   }
-  const loginUserSuccessful = (token, email, password) => {
+  const loginUserSuccessful = async (token, email, password, userInfo) => {
     setIsLogin(true)
     setToken(token)
     setEmail(email)
     setPassword(password)
-    AsyncStorage.setItem('custom_token', token)
-      .then(result => {
-        console.log('токенийг хадгаллаа......')
-      })
-      .catch(err => {
-        console.log('Токен хадгалж чадсангүй.....')
-        loginFailed(err.message)
-      })
+    setUserInfo(userInfo)
+    try {
+      await AsyncStorage.setItem('user', JSON.stringify({ token, userInfo }))
+
+    } catch (err) {
+      loginFailed(err)
+    }
   }
   const loginFailed = error => {
     console.log(error)
@@ -80,20 +100,39 @@ export const UserStore = props => {
     setEmail(null)
     setPassword(null)
     setisManageRole(false)
-    isUsersRole(null)
+    setUserInfo({})
+  }
+  const logout = async () => {
+    await AsyncStorage.removeItem('user')
+    setIsLogin(false)
+    setToken(null)
+    setToken(null)
+    setEmail(null)
+    setPassword(null)
+    setisManageRole(false)
+    setUserInfo({})
   }
   return (
     <UserContext.Provider
       value={{
+        token,
+        setToken,
+        email,
+        setEmail,
+        password,
+        setPassword,
         isLogin,
         setIsLogin,
         isManageRole,
-        isUsersRole,
+        setisManageRole,
         signin,
         signup,
+        logout,
         toggleSwitch,
-        token,
-        setToken
+        userInfo,
+        setUserInfo,
+        isLoading,
+        setIsLoading, Overread, setOverread
       }}
     >
       {props.children}

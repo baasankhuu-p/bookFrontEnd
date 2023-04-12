@@ -44,10 +44,10 @@ export default ({ book, style, textLen, content = { display: 'none' } }) => {
                 style.price,
                 sale
                   ? {
-                      fontSize: 12,
-                      color: 'red',
-                      textDecorationLine: 'line-through'
-                    }
+                    fontSize: 12,
+                    color: 'red',
+                    textDecorationLine: 'line-through'
+                  }
                   : null
               ]}
             >

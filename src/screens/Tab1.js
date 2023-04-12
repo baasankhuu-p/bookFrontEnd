@@ -2,11 +2,11 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { BookInfoScreen, HomeScreen } from './'
+import { BookDetails, HomeScreen } from './'
 import Logo from '../components/Logo'
 import { CustomLight, HBColor } from '../Constants'
 import GoBack from '../components/useComponent/GoBack'
-import backAlert from '../components/useComponent/backAlert'
+import { BackAlert } from '../components/useComponent/Alert'
 const Stack = createStackNavigator()
 
 export default () => {
@@ -24,12 +24,12 @@ export default () => {
       />
       <Stack.Screen
         name='Book'
-        component={BookInfoScreen}
+        component={BookDetails}
         options={{
           headerTitle: () => <Logo />,
           headerTitleAlign: 'center',
           headerLeft: () => (
-            <TouchableOpacity onPress={() => backAlert(navigation)}>
+            <TouchableOpacity onPress={() => BackAlert(navigation)}>
               <GoBack />
             </TouchableOpacity>
           ),

@@ -4,23 +4,24 @@ import {
   CustomBlue,
   CustomBrown,
   HBColor,
-  RestApiUrl,
   BackgroundBlueColor,
   CustomLight
 } from '../Constants'
 import { MyTextInput } from '../components'
 import MyToachableBtn from '../components/MyToachableBtn'
 import UserContext from '../context/userContext'
+import { Toast } from 'react-native-toast-message/lib/src/Toast'
 export default ({ navigation }) => {
   const state = useContext(UserContext)
-  const [email, setEmail] = useState('admin@gmail.com')
-  const [password, setPassword] = useState('1234')
+  const [email, setEmail] = useState('bsk68270@gmail.com')
+  const [password, setPassword] = useState('123456789')
   const onHandlerSignin = () => {
     if (email == '' || password == '') {
-      console.log('Мэдээллээ бүрэн бөглөнө үү ⚠....')
+      console.log('Мэдээллээ бүрэн бөглөнө үү ⚠')
     }
     state.signin(email, password)
   }
+
   return (
     <ScrollView style={css.container}>
       <Image

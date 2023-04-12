@@ -6,7 +6,7 @@ import { DeliveryScreen } from './'
 export default ({ navigation }) => {
   const Stack = createStackNavigator()
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='Deliveries'>
       <Stack.Screen
         name='Deliveries'
         component={DeliveryScreen}
