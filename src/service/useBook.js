@@ -1,1 +1,1 @@
-const deleteBook = () => {}
+const deleteBook = () => { }

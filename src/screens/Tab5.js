@@ -3,7 +3,9 @@ import { TouchableOpacity } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import GoBack from '../components/useComponent/GoBack'
 import Logo from '../components/Logo'
-import { ProfileScreen, SigninScreen, SignupScreen } from './'
+import ProfileScreen from './customers/ProfileScreen'
+import SigninScreen from './SigninScreen'
+import SignupScreen from './SignupScreen'
 import { HBColor } from '../Constants'
 import UserContext from '../context/userContext'
 import SplashScreen from './SplashScreen'
@@ -15,7 +17,7 @@ export default ({ navigation }) => {
   return (
     <>
       <SplashScreen />
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName='Signin'>
         {state.isLogin ? (
           <Stack.Screen
             name='Profile'

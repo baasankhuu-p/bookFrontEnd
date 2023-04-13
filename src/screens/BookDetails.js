@@ -7,7 +7,7 @@ import {
   Text,
   View,
   FlatList,
-  TextInput
+  TextInput, Alert
 } from 'react-native'
 const thousandify = require('thousandify')
 import Star from 'react-native-star-view/lib/Star'
@@ -27,11 +27,13 @@ import { getTextSubst, toastInfo } from '../utils/functions'
 import { GetComment, WriteComment } from '../service/customer/useComments'
 import { CommentNull } from '../components/useComponent/notfound'
 import UserContext from '../context/userContext'
+import { CreateOrder } from '../service/customer/useOrder'
+
 export default ({ route }) => {
   const state = useContext(UserContext)
   const [comments, setComments] = useState([])
-  const [toastMsg, setToastMsg] = useState(null)
-  const [order, setOrder] = useState(1)
+  const [toastObj, setToastObj] = useState(null)
+  const [ordercount, setOrdercount] = useState(1)
   const book = route.params.book
   const [sale, setSale] = useState(false)
   const [show, setShow] = useState(false)
@@ -39,18 +41,38 @@ export default ({ route }) => {
   useEffect(() => {
     //GET COMMENT
     GetComment(book._id).then(result => { setComments(result.data.comment) }).catch(err => {
-      setToastMsg({
+      setToastObj({
         type: 'error', msg: err.response.data.message
       })
     })
     book.salePrice > 0 ? setSale(true) : setSale(false)
     //item load
-  }, [route, onHandlerOrder, toastMsg])
+  }, [route, onHandlerOrder, toastObj])
   useEffect(() => {
-    toastMsgFnc(toastMsg);
-  }, [toastMsg])
-  const onHandlerOrder = order => {
-    setOrder(1)
+    toastMsgFnc(toastObj);
+  }, [toastObj])
+  //Create Order
+  const onHandlerOrder = (bookID, ordercount, token) => {
+    Alert.alert(`${book.bookname} 📖`, `Авах тоо: (${ordercount} ширхэг)`, [
+      {
+        text: 'Болих'
+      }, {
+        text: 'Захиалах',
+        onPress: () => CreateOrder(bookID, ordercount, token).then(result => {
+          setToastObj({
+            type: 'success', msg: 'Захиалга амжилттай хийгдлээ'
+          });
+          navigation.navigate('NotConfirmOrder')
+          state.setOverread(!state.Overread)
+        }).catch(err => {
+          setToastObj({
+            type: 'error', msg: err.response.data.message
+          });
+        })
+      }
+    ])
+
+    setOrdercount(1)
   }
 
   //COMMENT WRITE
@@ -60,24 +82,24 @@ export default ({ route }) => {
     const token = state.token
     WriteComment(book._id, rateCustomer, commentCustomer, token)
       .then(result => {
-        setToastMsg({
+        setToastObj({
           type: 'success', msg: 'Сэтгэгдлийг амжилттай илгээлээ'
         })
         state.setOverread(!state.Overread)
       })
       .catch(err => {
-        setToastMsg({
+        setToastObj({
           type: 'error', msg: err.response.data.message
         })
       });
     setCommentCustomer('')
     setRateCusomter(0)
   }
-  const toastMsgFnc = (toastMsg) => {
-    if (toastMsg) {
-      Toast.show(toastInfo(toastMsg.type, toastMsg.msg, 2000))
+  const toastMsgFnc = (toastObj) => {
+    if (toastObj) {
+      Toast.show(toastInfo(toastObj.type, toastObj.msg, 2000))
     }
-    setToastMsg(null)
+    setToastObj(null)
   }
   return (
     <ScrollView style={css.container}>
@@ -149,9 +171,9 @@ export default ({ route }) => {
         </View>
         <View style={[css.containheader, css.contain2]}>
           <View>
-            <IncDecInput max={book.count} order={order} setOrder={setOrder} />
+            <IncDecInput max={book.count} order={ordercount} setOrder={setOrdercount} />
           </View>
-          <TouchableOpacity onPress={() => onHandlerOrder(order)}>
+          <TouchableOpacity onPress={() => onHandlerOrder(book._id, ordercount, state.token)}>
             <Ionicons name='cart' size={26} color={HBColor} />
           </TouchableOpacity>
         </View>
@@ -195,7 +217,7 @@ export default ({ route }) => {
             )}
           </TouchableOpacity>
         </View>
-        <View style={[css.containheader, css.comment]}>
+        {comments.length > 0 && <View style={[css.containheader, css.comment]}>
           <View
             style={{
               flex: 1,
@@ -237,7 +259,7 @@ export default ({ route }) => {
               <CommentNull text={{ fontSize: 12, color: 'gray' }} />
             )}
           </View>
-        </View>
+        </View>}
         {/* Comment bichih */}
         {state.isLogin && (
           <View style={css.commentWrite}>
@@ -373,8 +395,7 @@ const css = StyleSheet.create({
   },
   comment: {
     flex: 1,
-    marginHorizontal: 10,
-    marginBottom: 20
+    marginHorizontal: 10
   },
   commentrate: {
     height: 20,
@@ -420,6 +441,7 @@ const css = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     marginBottom: 30,
+    marginTop: 20,
     backgroundColor: CustomLight,
     padding: 20,
     borderRadius: 10

@@ -3,7 +3,9 @@ import { View, Button } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
-import { AProfile, OperatorScreen, CustomersScreen } from './src/screens'
+import AProfile from './src/screens/admin/AProfile'
+import OperatorScreen from './src/screens/admin/OperatorsScreen'
+import CustomersScreen from './src/screens/admin/CustomersScreen'
 import Tab1 from './src/screens/Tab1'
 import Tab2 from './src/screens/Tab2'
 import Tab3 from './src/screens/Tab3'
@@ -15,10 +17,8 @@ import UserContext from './src/context/userContext'
 import SplashScreen from './src/screens/SplashScreen'
 import Logo from './src/components/Logo'
 import { Toast } from 'react-native-toast-message/lib/src/Toast'
-import { useEffect } from 'react'
 const Tab = createBottomTabNavigator()
 export default ({ ref }) => {
-  // const [toastMsg, setToastMsg] = useState({})
   const state = useContext(UserContext)
   switch (state.userInfo.roler) {
     case 'admin':

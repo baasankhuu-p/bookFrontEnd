@@ -32,7 +32,7 @@ export default ({ book, style, textLen, content = { display: 'none' } }) => {
             source={require('./../assets/image/upload/Book/no-photo.png')}
           />
         )}
-        <Text style={style.count}>{book.count} ш </Text>
+        {book.count ? <Text style={style.count}>{book.count} ш </Text> : <Text style={{ ...style.count, backgroundColor: 'rgba(0,0,0,0)', color: 'red' }}>дууссан </Text>}
         <View style={style.info}>
           <Text style={style.bookName}>
             {getTextSubst(book.bookname, textLen)}

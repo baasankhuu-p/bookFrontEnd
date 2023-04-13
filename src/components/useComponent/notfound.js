@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import { HBColor } from '../../Constants'
-export function BookSearchNotFound () {
+import { BackgroundBlueColor, HBColor } from '../../Constants'
+import { TouchableOpacity } from 'react-native'
+export function BookSearchNotFound() {
   return (
     <View style={css.container}>
       <Text style={css.text}>Ном олдсонгүй...</Text>
@@ -8,7 +9,7 @@ export function BookSearchNotFound () {
   )
 }
 
-export function CommentNull (style = '') {
+export function CommentNull(style = '') {
   return (
     <View style={{ flex: 1, height: 100 }}>
       <Text style={{ ...style.text }}>
@@ -17,8 +18,19 @@ export function CommentNull (style = '') {
     </View>
   )
 }
-
-export function OrderNull () {
+export function NotSignIn() {
+  return (
+    <View style={css.container}>
+      <Text></Text>
+      <Image
+        style={css.icon}
+        source={require('../../assets/image/png/signInNot.png')}
+      />
+      <Text style={css.text}>Та нэвтэрнэ үү</Text>
+    </View >
+  )
+}
+export function OrderNull() {
   return (
     <View style={css.container}>
       <Text></Text>
@@ -31,7 +43,7 @@ export function OrderNull () {
   )
 }
 
-export function DeliveryNull () {
+export function DeliveryNull() {
   return (
     <View style={css.container}>
       <Image
@@ -47,7 +59,8 @@ const css = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+    backgroundColor: BackgroundBlueColor
   },
   icon: { width: 60, height: 60 },
   text: {

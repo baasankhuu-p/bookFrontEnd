@@ -5,11 +5,9 @@ import useCategory from '../service/useCategory'
 import { CategoryBookList, SearchBook } from '../components'
 import { BackgroundBlueColor, ErrColor } from '../Constants'
 import Spinner from '../components/useComponent/Spinner'
-import { toastInfo } from '../utils/functions'
-import UserContext from '../context/userContext'
 export default () => {
   const [searchValue, setSearchValue] = useState('')
-  const [categories, errorMessage, searchCategory, loading] = useCategory()
+  const [categories, searchCategory, loading] = useCategory()
   return (
     <ScrollView style={css.container}>
       <SearchBook

@@ -1,20 +1,21 @@
-import React, { useState } from 'react' //React librarr using
-import { Text, StyleSheet, ScrollView, View } from 'react-native' //reactnaitve-iin (core) component-uud
+import React, { useState, useEffect, useContext } from 'react' //React librarr using
+import { StyleSheet, ScrollView, View } from 'react-native' //reactnaitve-iin (core) component-uud
 import { CustomLight, HBColor, HBWhite } from '../Constants' // Uund programmdaa ashglah undsen unguud bolon API hostoo tohiruulj ogsn
 import useBooks from '../service/useBooks' //API-tai haritsah code
 import BookItem from './../components/BookItem' // hereglegchiin component->Nom bolgoniig neg component bolgoj avsn
 import Spinner from '../components/useComponent/Spinner' //  hereglegchiin component ->reload hiij bhd tur huleene uu gesen achaalliig haruulah
 import SearchBook from '../components/SearchBook' // hereglegchiin component->nom haih
 import { BookSearchNotFound } from '../components/useComponent/notfound'
+import UserContext from '../context/userContext'
 export default () => {
-  const [books, error, loading] = useBooks() //API-d bolovsruulalt hiij butsaah datag huvisagechidd hadgalj baina
   const [searchValue, setSearchValue] = useState('') //Hailtiin utgiig hadgalah state
-  if (error) {
-    //aldaa baival aldaanii text haruulna
-    return (
-      <Text style={{ color: 'red', margin: 30 }}>Алдаа гарлаа! {error}</Text>
-    )
-  }
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true)
+  const state = useContext(UserContext)
+  useEffect(() => {
+    useBooks().then(result => { setBooks(result.data.data); setLoading(false) }).catch(err => { console.log(err.response.data); setLoading(false) })
+  }, [state.Overread])
+
   const filterBooks = books.filter(el => el.bookname.includes(searchValue)) //Hailt hiij bn filter, Include functs ni javascript-n san bogood filter ni shuuj avah include ni tuhain ogogdol dotor ene temdegt baina uu gesen shalgaltiig hiih uuregtei
   return (
     //Datagaa haruulj bui baidal
