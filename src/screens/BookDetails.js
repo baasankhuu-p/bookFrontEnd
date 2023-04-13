@@ -85,6 +85,8 @@ export default ({ route }) => {
         setToastObj({
           type: 'success', msg: 'Сэтгэгдлийг амжилттай илгээлээ'
         })
+        setCommentCustomer('')
+        setRateCusomter(0)
         state.setOverread(!state.Overread)
       })
       .catch(err => {
@@ -92,8 +94,6 @@ export default ({ route }) => {
           type: 'error', msg: err.response.data.message
         })
       });
-    setCommentCustomer('')
-    setRateCusomter(0)
   }
   const toastMsgFnc = (toastObj) => {
     if (toastObj) {

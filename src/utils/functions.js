@@ -38,7 +38,7 @@ export const toastInfo = (type, title, date, message) => {
     autoHide: true,
     topOffset: 20,
     bottomOffset: 30,
-    onShow: () => {},
-    onHide: () => {}
+    onShow: () => { },
+    onHide: () => { }
   }
 }

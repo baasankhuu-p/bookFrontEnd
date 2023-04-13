@@ -6,7 +6,6 @@ import useCustomers from '../../service/admin/useCustomers'
 export default () => {
   const state = useContext(UserContext)
   const [resData, pagenation, errorMessage, loading] = useCustomers()
-  console.log('screen=>', resData)
   return (
     <ScrollView>
       <Text>Total: {pagenation.total}</Text>
