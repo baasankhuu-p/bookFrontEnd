@@ -15,7 +15,6 @@ import UserContext from "../../context/userContext";
 import { toastInfo } from "../../utils/functions";
 import {
   BackgroundBlueColor,
-  CustomBlue,
   CustomLight,
   HBColor,
   OCustomGray,
@@ -24,7 +23,6 @@ import {
 export default () => {
   const state = useContext(UserContext);
   const [orders, setOrders] = useState([]);
-  const [toastObj, setToastObj] = useState(null);
   useEffect(() => {
     getConfirmOrder(state.token)
       .then((result) => {
@@ -32,20 +30,9 @@ export default () => {
       })
       .catch((err) => {
         const customErr = err.response.data.message;
-        setToastObj({
-          type: "error",
-          msg: customErr ? customErr : `Алдаа: ${err.message}`,
-        });
+        console.log(customErr);
       });
-    setToastObj(null);
   }, [state.Overread]);
-  useEffect(() => {
-    //Aldaanii MSG ognoo Toast baidlaar
-    if (toastObj) {
-      Toast.show(toastInfo(toastObj.type, toastObj.msg, 2000));
-    }
-    setToastObj(null);
-  }, [toastObj]);
   return (
     <>
       {orders.length > 0 ? (
@@ -65,9 +52,7 @@ export default () => {
                       {el.Payment.PaymentDate.split("T")[0].replaceAll(
                         "-",
                         "/"
-                      )}{" "}
-                      {el.Payment.PaymentDate.split("T")[1].split(":")[0]}:
-                      {el.Payment.PaymentDate.split(":")[1]}
+                      )}
                     </Text>
                   </View>
                   <View style={css.info}>

@@ -1,22 +1,24 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { BackgroundBlueColor, HBColor } from '../../Constants'
-import { TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image } from "react-native";
+import { BackgroundBlueColor, HBColor } from "../../Constants";
 export function BookSearchNotFound() {
   return (
     <View style={css.container}>
-      <Text style={css.text}>Ном олдсонгүй...</Text>
+      <Image
+        style={{ width: 50, height: 50 }}
+        source={require("../../assets/image/png/book.png")}
+      />
     </View>
-  )
+  );
 }
 
-export function CommentNull(style = '') {
+export function CommentNull(style = "") {
   return (
     <View style={{ flex: 1, height: 100 }}>
       <Text style={{ ...style.text }}>
-        {'  '}Энэ хүү номонд сэтгэгдэл байхгүй байна...
+        {"  "}Энэ хүү номонд сэтгэгдэл байхгүй байна...
       </Text>
     </View>
-  )
+  );
 }
 export function NotSignIn() {
   return (
@@ -24,11 +26,11 @@ export function NotSignIn() {
       <Text></Text>
       <Image
         style={css.icon}
-        source={require('../../assets/image/png/signInNot.png')}
+        source={require("../../assets/image/png/signInNot.png")}
       />
       <Text style={css.text}>Та нэвтэрнэ үү</Text>
-    </View >
-  )
+    </View>
+  );
 }
 export function OrderNull() {
   return (
@@ -36,11 +38,11 @@ export function OrderNull() {
       <Text></Text>
       <Image
         style={css.icon}
-        source={require('../../assets/image/png/orderempty.webp')}
+        source={require("../../assets/image/png/orderempty.webp")}
       />
       <Text style={css.text}>Захиалгын мэдээлэл хоосон байна</Text>
     </View>
-  )
+  );
 }
 
 export function DeliveryNull() {
@@ -48,25 +50,25 @@ export function DeliveryNull() {
     <View style={css.container}>
       <Image
         style={css.icon}
-        source={require('../../assets/image/png/deliveryempty.png')}
+        source={require("../../assets/image/png/deliveryempty.png")}
       />
       <Text style={css.text}>Хүргэлтийн мэдээлэл хоосон байна</Text>
     </View>
-  )
+  );
 }
 const css = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    backgroundColor: BackgroundBlueColor
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    backgroundColor: BackgroundBlueColor,
   },
   icon: { width: 60, height: 60 },
   text: {
     fontSize: 15,
     color: HBColor,
     paddingHorizontal: 20,
-    textAlign: 'center'
-  }
-})
+    textAlign: "center",
+  },
+});

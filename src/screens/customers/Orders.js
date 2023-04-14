@@ -5,24 +5,21 @@ import {
   FlatList,
   TouchableOpacity,
   View,
+  StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
 const thousandify = require("thousandify");
 import { FontAwesome } from "@expo/vector-icons";
 import { CustomLight, HBColor } from "../../Constants";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
 import UserContext from "../../context/userContext";
-import { toastInfo } from "../../utils/functions";
 import { getOrder, orderPay } from "../../service/customer/useOrder";
 import { OrderNull } from "../../components/useComponent/notfound";
 import OrderItem from "../../components/OrderItem";
-import { StyleSheet } from "react-native";
 export default () => {
   const state = useContext(UserContext);
   //Zahialgiin nomuud
   const [orders, setOrders] = useState([]);
   const [payInfo, setPayinfo] = useState({});
-  const [toastObj, setToastObj] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     getOrder(state.token)
@@ -31,27 +28,16 @@ export default () => {
       })
       .catch((err) => {
         const customErr = err.response.data.message;
-        if (!customErr) {
-          setToastObj({ type: "error", msg: `Алдаа: ${err.message}` });
-        }
+        console.log(customErr);
       });
-    setToastObj(null);
-  }, [state.Overread, payInfo]);
-  useEffect(() => {
-    //Aldaanii MSG ognoo Toast baidlaar
-    if (toastObj) {
-      Toast.show(toastInfo(toastObj.type, toastObj.msg, 2000));
-    }
-    setToastObj(null);
-  }, [toastObj]);
-
+  }, [state.Overread]);
   //Order Payments
   const onHandlePayment = (token) => {
     orderPay(token)
       .then((result) => {
         setPayinfo(result.data.payInfo);
         setIsVisible(true);
-        state.setOverread(!state.Overread);
+        //Batalgaajsan gesn tsonhruu usreh
       })
       .catch((err) => {
         const customErr = err.response.data.message;
@@ -61,6 +47,11 @@ export default () => {
           setToastObj({ type: "error", msg: customErr });
         }
       });
+  };
+  const visibleClose = () => {
+    setIsVisible(false);
+    setOrders([]);
+    state.setOverread(!state.Overread);
   };
   return (
     <>
@@ -76,7 +67,7 @@ export default () => {
                 }}
               >
                 {/* Close Button Custom */}
-                <TouchableOpacity onPress={() => setIsVisible(false)}>
+                <TouchableOpacity onPress={visibleClose}>
                   <FontAwesome
                     name="remove"
                     size={25}
@@ -106,9 +97,9 @@ export default () => {
                   </View>
                   <Text style={[css.titlesmall]}>Хаан Банк</Text>
                   <View style={css.content}>
-                    <Text style={css.txtStyle}>Дансны дугаар: 5801010101</Text>
+                    <Text style={css.txtStyle}>Дансны дугаар: 58********</Text>
                     <Text style={css.txtStyle}>
-                      Хүлээн авагч: НОМЫН ДЭЛГҮҮР ХХК
+                      Хүлээн авагч: "НОМЫН ДЭЛГҮҮР ХХК"
                     </Text>
                   </View>
                 </View>

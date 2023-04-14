@@ -1,11 +1,11 @@
-import { View, Text, ScrollView } from 'react-native'
-import React, { useContext } from 'react'
-import UserContext from '../../context/userContext'
-import useCustomers from '../../service/admin/useCustomers'
+import { View, Text, ScrollView } from "react-native";
+import React, { useContext } from "react";
+import UserContext from "../../context/userContext";
+import { useCustomers } from "../../service/admin/useCustomer";
 
 export default () => {
-  const state = useContext(UserContext)
-  const [resData, pagenation, errorMessage, loading] = useCustomers()
+  const state = useContext(UserContext);
+  const [resData, pagenation, errorMessage, loading] = useCustomers();
   return (
     <ScrollView>
       <Text>Total: {pagenation.total}</Text>
@@ -21,5 +21,5 @@ export default () => {
         </View>
       ))}
     </ScrollView>
-  )
-}
+  );
+};
