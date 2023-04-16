@@ -1,34 +1,21 @@
 import React, { useContext, useState } from "react";
 import UserContext from "../../context/userContext";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Image,
-  TouchableOpacity,
-  Text,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { ScrollView, StyleSheet, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { useCustomer } from "../../service/admin/useCustomer";
-
-import { CustomLight, HBColor, OCustomGray } from "../../Constants";
+import { updateCustomer } from "../../service/admin/useCustomer";
+import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
 import MyTextInput from "../../components/MyTextInput";
-import { toastInfo } from "../../utils/functions";
+import MyTouchableBtn from "../../components/MyToachableBtn";
 export default () => {
   const state = useContext(UserContext);
   const navigation = useNavigation();
-  const [toastObj, setToastObj] = useState(null);
-
-  const [lname, setLname] = useState(null);
-  const [fname, setFname] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [phone, setPhone] = useState(null);
+  const [lname, setLname] = useState(state.userInfo.lname);
+  const [fname, setFname] = useState(state.userInfo.fname);
+  const [address, setAddress] = useState(state.userInfo.address);
+  const [email, setEmail] = useState(state.userInfo.email);
+  const [phone, setPhone] = useState(`${state.userInfo.phone}`);
   const saveHandler = () => {
-    console.log("res");
     const data = {
       fname,
       lname,
@@ -36,13 +23,20 @@ export default () => {
       phone,
       address,
     };
-    console.log(data);
-    useCustomer(state.token, data)
+    updateCustomer(state.token, data)
       .then((result) => {
-        console.log(result.data);
+        state.setMessage("Амжилттай хадгаллаа");
+        state.setUserInfo({
+          CreatedDate: state.userInfo.CreatedDate,
+          __v: 0,
+          _id: state.userInfo._id,
+          password: state.userInfo.password,
+          ...data,
+        });
+        navigation.navigate("Profile");
       })
       .catch((err) => {
-        console.log(err.response.data);
+        state.setMessage(err.response.data.message);
       });
   };
   const cancelHandler = () => {
@@ -51,16 +45,6 @@ export default () => {
     setEmail(null);
     setPhone(null);
     navigation.goBack();
-  };
-  // setToastObj({
-  //   type: "error",
-  //   msg: err.response.data.message,
-  // });
-  const toastMsgFnc = (toastObj) => {
-    if (toastObj) {
-      Toast.show(toastInfo(toastObj.type, toastObj.msg, 2000));
-    }
-    setToastObj(null);
   };
   return (
     <>
@@ -79,14 +63,14 @@ export default () => {
               value={lname}
               autoCapitalize="none"
               iconname="person-outline"
-              placeholder={state.userInfo.lname}
+              placeholder={"Овог нэрээ оруулна уу"}
             />
             <MyTextInput
               onChangeText={setFname}
               value={fname}
               autoCapitalize="none"
               iconname="person-outline"
-              placeholder={state.userInfo.fname}
+              placeholder="Нэрээ оруулна уу"
             />
 
             <MyTextInput
@@ -94,36 +78,36 @@ export default () => {
               value={address}
               autoCapitalize="none"
               iconname="location-outline"
-              placeholder={state.userInfo.address}
+              placeholder="Хаягаа оруулна уу"
             />
             <MyTextInput
               onChangeText={setEmail}
               value={email}
               autoCapitalize="none"
               iconname="md-mail-open-outline"
-              placeholder={state.userInfo.email}
+              placeholder="имейл хаягаа оруулна уу"
             />
             <MyTextInput
               onChangeText={setPhone}
               value={phone}
               iconname="call-outline"
               keyboardType="numeric"
-              placeholder={`${state.userInfo.phone}`}
+              placeholder="Дугаараа оруулна уу"
             />
           </View>
           <View style={{ marginTop: 10 }}>
-            <TouchableOpacity onPress={saveHandler}>
-              <View style={css.information}>
-                <Ionicons style={css.infoIcon} size={25} name="save-outline" />
-                <Text style={css.infoText}>Хадгалах</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={cancelHandler}>
-              <View style={[css.information, css.cancel]}>
-                <Ionicons style={css.infoIcon} size={25} name="save-outline" />
-                <Text style={css.infoText}>Буцах</Text>
-              </View>
-            </TouchableOpacity>
+            <MyTouchableBtn
+              iconname="save-outline"
+              btncss={{ backgroundColor: CustomBlue }}
+              title="Хадгалах"
+              onPress={saveHandler}
+            />
+            <MyTouchableBtn
+              iconname="arrow-back-circle"
+              btncss={{ backgroundColor: "orange" }}
+              title="Буцах"
+              onPress={cancelHandler}
+            />
           </View>
         </ScrollView>
       )}
@@ -156,31 +140,4 @@ const css = StyleSheet.create({
     borderRadius: 50,
   },
   username: {},
-
-  information: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 20,
-    marginVertical: 2,
-    padding: 10,
-    backgroundColor: HBColor,
-    borderColor: OCustomGray,
-    borderWidth: 2,
-    borderRadius: 10,
-  },
-  infoIcon: {
-    color: "white",
-  },
-  infoText: {
-    marginLeft: 10,
-    textTransform: "capitalize",
-    fontSize: 15,
-    color: "white",
-    fontWeight: "bold",
-  },
-  cancel: {
-    backgroundColor: "orange",
-  },
 });

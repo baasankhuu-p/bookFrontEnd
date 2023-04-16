@@ -16,6 +16,7 @@ export const UserStore = (props) => {
   const [userInfo, setUserInfo] = useState({});
   // Overread
   const [Overread, setOverread] = useState(false);
+  const [message, setMessage] = useState(null);
   const toggleSwitch = () => setisManageRole((previousState) => !previousState);
 
   const signin = (email, password) => {
@@ -34,8 +35,7 @@ export const UserStore = (props) => {
           );
         })
         .catch((err) => {
-          loginFailed(err.message);
-          console.log("Нэвтрэх явцад алдаа гарлаа.....");
+          loginFailed(err.response.data.message);
         });
     } else if (!isManageRole) {
       axios
@@ -54,7 +54,6 @@ export const UserStore = (props) => {
         })
         .catch((err) => {
           loginFailed(err.response.data.message);
-          console.log("Нэвтрэх явцад алдаа гарлаа.....");
         });
     }
   };
@@ -82,6 +81,7 @@ export const UserStore = (props) => {
       });
   };
   const loginUserSuccessful = async (token, email, password, userInfo) => {
+    setMessage("Амжилттай");
     setIsLogin(true);
     setToken(token);
     setEmail(email);
@@ -89,12 +89,13 @@ export const UserStore = (props) => {
     setUserInfo(userInfo);
     try {
       await AsyncStorage.setItem("user", JSON.stringify({ token, userInfo }));
+      setOverread(!Overread);
     } catch (err) {
-      loginFailed(err);
+      loginFailed(err.response.data.message);
     }
   };
   const loginFailed = (error) => {
-    console.log(error);
+    setMessage(error);
     setIsLogin(false);
     setEmail(null);
     setPassword(null);
@@ -102,9 +103,9 @@ export const UserStore = (props) => {
     setUserInfo({});
   };
   const logout = async () => {
+    setMessage("Системээс гарлаа");
     await AsyncStorage.removeItem("user");
     setIsLogin(false);
-    setToken(null);
     setToken(null);
     setEmail(null);
     setPassword(null);
@@ -134,6 +135,8 @@ export const UserStore = (props) => {
         setIsLoading,
         Overread,
         setOverread,
+        message,
+        setMessage,
       }}
     >
       {props.children}

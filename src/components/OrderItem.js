@@ -1,19 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Alert, Text } from "react-native";
-import { Image, StyleSheet } from "react-native";
-import { View } from "react-native";
+import React, { useContext } from "react";
+import { Alert, Text, Image, StyleSheet, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+
 import { CustomLight, HBColor } from "../Constants";
 import { TouchableOpacity } from "react-native";
 import UserContext from "../context/userContext";
 import { deletebookOrder } from "../service/customer/useOrder";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { toastInfo } from "../utils/functions";
-import { useNavigation } from "@react-navigation/native";
 export default ({ item }) => {
   const state = useContext(UserContext);
   const navigation = useNavigation();
-  const [toastObj, setToastObj] = useState(null);
   const removeItemHandler = () => {
     Alert.alert(`Захиалга цуцлах уу`, `${item.Book.bookname}`, [
       { text: "болих" },
@@ -25,25 +21,18 @@ export default ({ item }) => {
       },
     ]);
   };
-  useEffect(() => {
-    if (toastObj) {
-      Toast.show(toastInfo(toastObj.type, toastObj.msg, 2000));
-    }
-    setToastObj(null);
-  }, [toastObj]);
   const deleteOrder = (BookID, token) => {
     deletebookOrder(BookID, token)
       .then((response) => {
-        setToastObj({
-          type: "success",
-          msg: `Устгагдлаа: "${response.data.order2Book.BookId.bookname}"`,
-        });
+        state.setMessage(
+          `Устгагдлаа: "${response.data.order2Book.BookId.bookname}"`
+        );
         state.setOverread(!state.Overread);
       })
       .catch((err) => {
         if (err.response.data.message)
-          setToastObj({ type: "error", msg: err.response.data.message });
-        else setToastObj({ type: "error", msg: err.message });
+          state.setMessage(err.response.data.message);
+        else state.setMessage(err.message);
       });
   };
   const onPressHandlerBook = () => {

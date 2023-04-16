@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import {
   CustomBlue,
-  CustomBrown,
   HBColor,
   BackgroundBlueColor,
   CustomLight,
@@ -17,14 +16,13 @@ import {
 import { MyTextInput } from "../components";
 import MyToachableBtn from "../components/MyToachableBtn";
 import UserContext from "../context/userContext";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
-export default ({ navigation }) => {
+export default () => {
   const state = useContext(UserContext);
-  const [email, setEmail] = useState("baasankhuu@gmail.com");
-  const [password, setPassword] = useState("12345678");
+  const [email, setEmail] = useState("admin@gmail.com");
+  const [password, setPassword] = useState("1234");
   const onHandlerSignin = () => {
     if (email == "" || password == "") {
-      console.log("Мэдээллээ бүрэн бөглөнө үү ⚠");
+      state.setMessage("Мэдээллээ бүрэн бөглөнө үү ⚠");
     }
     state.signin(email, password);
   };
@@ -64,13 +62,16 @@ export default ({ navigation }) => {
           iconname="build-outline"
         />
         <MyToachableBtn
+          iconname="log-in-outline"
+          btncss={{ backgroundColor: CustomBlue }}
           title="НЭВТРЭХ"
-          style={[css.button, css.loginButton]}
           onPress={onHandlerSignin}
         />
+
         <MyToachableBtn
+          iconname="add-circle-outline"
+          btncss={{ backgroundColor: "orange" }}
           title="БҮРТГҮҮЛЭХ"
-          style={[css.button, css.registerButton]}
           onPress={() => {
             navigation.navigate("Signup");
           }}
@@ -103,18 +104,6 @@ const css = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: HBColor,
-  },
-  button: {
-    marginVertical: 10,
-  },
-  registerButton: {
-    backgroundColor: "rgba(0,0,0,0)",
-    color: CustomBrown,
-    fontSize: 11,
-    textDecorationLine: "underline",
-  },
-  loginButton: {
-    backgroundColor: CustomBlue,
   },
   switch: {
     marginHorizontal: 20,

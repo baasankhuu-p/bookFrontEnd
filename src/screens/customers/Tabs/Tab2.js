@@ -1,15 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import Logo from "../components/Logo";
-import { HBColor } from "../Constants";
-import DeliveryScreen from "./customers/DeliveryScreen";
-export default ({ navigation }) => {
+import Logo from "../../../components/Logo";
+import { HBColor } from "../../../Constants";
+import BookScreen from "../../BookScreen";
+export default () => {
   const Stack = createStackNavigator();
   return (
-    <Stack.Navigator initialRouteName="Deliveries">
+    <Stack.Navigator initialRouteName="Books">
       <Stack.Screen
-        name="Deliveries"
-        component={DeliveryScreen}
+        name="Books"
+        component={BookScreen}
         options={{
           headerTitle: () => <Logo />,
           headerTitleAlign: "center",

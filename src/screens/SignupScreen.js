@@ -10,6 +10,7 @@ import {
 import { MyTextInput } from "../components";
 import MyToachableBtn from "../components/MyToachableBtn";
 import UserContext from "../context/userContext";
+import { ToastAndroid } from "react-native";
 export default () => {
   const navigation = useNavigation();
   const [lastName, setLastname] = useState("testLastName");
@@ -34,6 +35,7 @@ export default () => {
     } else if (password != confirmPass) {
       console.log("Нууц үг хоорондоо таарахгүй байна 🔐");
     }
+    ToastAndroid.show("Түр хүлээнэ үү", ToastAndroid.SHORT);
     state.signup(firstName, lastName, email, phone, password, address);
   };
   return (
@@ -100,13 +102,16 @@ export default () => {
           iconname="location-outline"
         />
         <MyToachableBtn
-          title="Бүртгүүлэх"
-          style={[css.button, css.registerButton]}
+          iconname="add-circle-outline"
+          btncss={{ backgroundColor: CustomBlue }}
+          title="БҮРТГҮҮЛЭХ"
           onPress={onHandlerSignup}
         />
+
         <MyToachableBtn
-          title="Нэвтрэх"
-          style={[css.button, css.loginButton]}
+          iconname="log-in-outline"
+          btncss={{ backgroundColor: "orange" }}
+          title="НЭВТРЭХ"
           onPress={() => {
             navigation.navigate("Signin");
           }}

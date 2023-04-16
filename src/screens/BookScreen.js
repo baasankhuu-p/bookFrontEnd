@@ -24,7 +24,6 @@ export default () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err.response.data);
         setLoading(false);
       });
   }, [state.Overread]);

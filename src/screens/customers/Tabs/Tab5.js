@@ -1,20 +1,21 @@
 import React, { useContext } from "react";
-import { TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import GoBack from "../components/useComponent/GoBack";
-import Logo from "../components/Logo";
-import ProfileScreen from "./customers/ProfileScreen";
-import SigninScreen from "./SigninScreen";
-import SignupScreen from "./SignupScreen";
-import { HBColor } from "../Constants";
-import UserContext from "../context/userContext";
-import SplashScreen from "./SplashScreen";
-import InformationEdit from "./customers/InformationEdit";
+import { ToastAndroid } from "react-native";
+import ProfileScreen from "../ProfileScreen";
+import SigninScreen from "../../SigninScreen";
+import SignupScreen from "../../SignupScreen";
+import UserContext from "../../../context/userContext";
+import SplashScreen from "../../SplashScreen";
+import InformationEdit from "../InformationEdit";
 
 const Stack = createStackNavigator();
 
-export default ({ navigation }) => {
+export default () => {
   const state = useContext(UserContext);
+  if (state.message !== null) {
+    ToastAndroid.show(state.message, ToastAndroid.SHORT);
+    state.setMessage(null);
+  }
   return (
     <>
       <SplashScreen />

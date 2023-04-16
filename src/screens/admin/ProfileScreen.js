@@ -33,7 +33,7 @@ export default () => {
     ]);
   };
   const editInformationHandler = () => {
-    navigation.navigate("InformationEdit");
+    navigation.navigate("EditProfile");
   };
   return (
     <>
@@ -48,14 +48,11 @@ export default () => {
             </TouchableOpacity>
             <Image
               style={css.image}
-              source={require("../../assets/image/png/user.png")}
+              source={require("../../assets/image/png/admin.png")}
             />
-            <Text style={css.username}>
-              {state.userInfo.lname} {state.userInfo.fname}
-            </Text>
+            <Text style={css.username}>{state.userInfo.username}</Text>
           </View>
-
-          <MyLbl iconname="location-outline" text={state.userInfo.address} />
+          <MyLbl iconname="logo-steam" text={state.userInfo.roler} />
           <MyLbl iconname="md-mail-open-outline" text={state.userInfo.email} />
           <MyLbl iconname="call-outline" text={state.userInfo.phone} />
           <MyLbl
@@ -78,7 +75,6 @@ const css = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: OCustomGray,
-    marginTop: 20,
   },
   profile: {
     flex: 1,
@@ -92,7 +88,7 @@ const css = StyleSheet.create({
     paddingVertical: 20,
   },
   image: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: HBColor,
     width: 100,
     height: 100,

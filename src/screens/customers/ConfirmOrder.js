@@ -8,11 +8,10 @@ import {
   Image,
 } from "react-native";
 const thousandify = require("thousandify");
-import { Toast } from "react-native-toast-message/lib/src/Toast";
+
 import { OrderNull } from "../../components/useComponent/notfound";
 import { getConfirmOrder } from "../../service/customer/useOrder";
 import UserContext from "../../context/userContext";
-import { toastInfo } from "../../utils/functions";
 import {
   BackgroundBlueColor,
   CustomLight,
@@ -23,14 +22,14 @@ import {
 export default () => {
   const state = useContext(UserContext);
   const [orders, setOrders] = useState([]);
+
   useEffect(() => {
     getConfirmOrder(state.token)
       .then((result) => {
         setOrders(result.data.data);
       })
       .catch((err) => {
-        const customErr = err.response.data.message;
-        console.log(customErr);
+        console.log("мэдээллийг унших үед Алдаа: ", err.response.data);
       });
   }, [state.Overread]);
   return (

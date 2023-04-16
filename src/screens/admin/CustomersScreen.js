@@ -1,15 +1,30 @@
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import React, { useContext } from "react";
 import UserContext from "../../context/userContext";
-import { useCustomers } from "../../service/admin/useCustomer";
+import { getCustomers } from "../../service/admin/useCustomer";
 
 export default () => {
   const state = useContext(UserContext);
-  const [resData, pagenation, errorMessage, loading] = useCustomers();
-  return (
+  const [customers, setCustomer] = useState(null);
+  useEffect(() => {
+    if (state.token) {
+      getCustomers(state.token)
+        .then((result) => {
+          console.log(result.data.data);
+          setCustomer(result.data.data);
+        })
+        .catch((err) => {
+          ToastAndroid.show(
+            `Алдаа: ${err.response.data.message}`,
+            ToastAndroid.SHORT
+          );
+        });
+    }
+  }, [state.Overread]);
+  return customers ? (
     <ScrollView>
-      <Text>Total: {pagenation.total}</Text>
-      {resData.map((el, index) => (
+      <Text>Total: {customers.length}</Text>
+      {customers.map((el, index) => (
         <View key={index}>
           <Text>{el._id}</Text>
           <Text>{el.address}</Text>
@@ -21,5 +36,7 @@ export default () => {
         </View>
       ))}
     </ScrollView>
+  ) : (
+    <></>
   );
 };

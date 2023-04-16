@@ -2,19 +2,12 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "./HomeScreen";
-import BookDetails from "./BookDetails";
-import Logo from "../components/Logo";
-import {
-  CustomBlue,
-  CustomBrown,
-  CustomLight,
-  HBColor,
-  OCustomBrown,
-  OCustomGray,
-} from "../Constants";
-import GoBack from "../components/useComponent/GoBack";
-import { BackAlert } from "../components/useComponent/Alert";
+import HomeScreen from "../../HomeScreen";
+import BookDetails from "../../BookDetails";
+import Logo from "../../../components/Logo";
+import { CustomLight } from "../../../Constants";
+import GoBack from "../../../components/useComponent/GoBack";
+import { BackAlert } from "../../../components/useComponent/Alert";
 const Stack = createStackNavigator();
 
 export default () => {

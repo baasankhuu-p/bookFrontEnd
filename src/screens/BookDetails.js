@@ -13,7 +13,6 @@ import {
 const thousandify = require("thousandify");
 import Star from "react-native-star-view/lib/Star";
 import { Rating } from "react-native-ratings";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import IncDecInput from "../components/useComponent/IncDecInput ";
@@ -24,7 +23,7 @@ import {
   HBWhite,
   OCustomGray,
 } from "../Constants";
-import { getTextSubst, toastInfo } from "../utils/functions";
+import { getTextSubst } from "../utils/functions";
 import { GetComment, WriteComment } from "../service/customer/useComments";
 import { CommentNull } from "../components/useComponent/notfound";
 import UserContext from "../context/userContext";
@@ -33,7 +32,6 @@ import { CreateOrder } from "../service/customer/useOrder";
 export default ({ route }) => {
   const state = useContext(UserContext);
   const [comments, setComments] = useState([]);
-  const [toastObj, setToastObj] = useState(null);
   const [ordercount, setOrdercount] = useState(1);
   const book = route.params.book;
   const [sale, setSale] = useState(false);
@@ -46,17 +44,11 @@ export default ({ route }) => {
         setComments(result.data.comment);
       })
       .catch((err) => {
-        setToastObj({
-          type: "error",
-          msg: err.response.data.message,
-        });
+        state.setMessage(err.response.data.message);
       });
     book.salePrice > 0 ? setSale(true) : setSale(false);
     //item load
-  }, [route, onHandlerOrder, toastObj]);
-  useEffect(() => {
-    toastMsgFnc(toastObj);
-  }, [toastObj]);
+  }, [route, onHandlerOrder]);
   //Create Order
   const onHandlerOrder = (bookID, ordercount, token) => {
     Alert.alert(`${book.bookname} 📖`, `Авах тоо: (${ordercount} ширхэг)`, [
@@ -68,18 +60,12 @@ export default ({ route }) => {
         onPress: () =>
           CreateOrder(bookID, ordercount, token)
             .then((result) => {
-              setToastObj({
-                type: "success",
-                msg: "Захиалга амжилттай хийгдлээ",
-              });
+              state.setMessage("Захиалга амжилттай хийгдлээ");
               navigation.navigate("NotConfirmOrder");
               state.setOverread(!state.Overread);
             })
             .catch((err) => {
-              setToastObj({
-                type: "error",
-                msg: err.response.data.message,
-              });
+              state.setMessage(err.response.data.message);
             }),
       },
     ]);
@@ -94,26 +80,14 @@ export default ({ route }) => {
     const token = state.token;
     WriteComment(book._id, rateCustomer, commentCustomer, token)
       .then((result) => {
-        setToastObj({
-          type: "success",
-          msg: "Сэтгэгдлийг амжилттай илгээлээ",
-        });
+        state.setMessage("Сэтгэгдлийг амжилттай илгээлээ");
         setCommentCustomer("");
         setRateCusomter(0);
         state.setOverread(!state.Overread);
       })
       .catch((err) => {
-        setToastObj({
-          type: "error",
-          msg: err.response.data.message,
-        });
+        state.setMessage(err.response.data.message);
       });
-  };
-  const toastMsgFnc = (toastObj) => {
-    if (toastObj) {
-      Toast.show(toastInfo(toastObj.type, toastObj.msg, 2000));
-    }
-    setToastObj(null);
   };
   return (
     <ScrollView style={css.container}>

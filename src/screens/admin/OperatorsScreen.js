@@ -1,28 +1,29 @@
-import { View, Text } from 'react-native'
-import React, { useContext } from 'react'
-import UserContext from '../../context/userContext'
-import useOperator from '../../service/admin/useOperator'
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, ToastAndroid } from "react-native";
+import UserContext from "../../context/userContext";
+import { getOperators } from "../../service/admin/useOperator";
 
 export default () => {
-  const state = useContext(UserContext)
-  let [resData, pagenation, errorMessage, loading] = useOperator()
-  return (
+  const state = useContext(UserContext);
+  const [operators, setOperator] = useState(null);
+  useEffect(() => {
+    getOperators(state.token)
+      .then((result) => {
+        console.log(result.data.data);
+        setOperator(result.data.data);
+      })
+      .catch((err) => {
+        ToastAndroid.show(
+          `Алдаа: ${err.response.data.message}`,
+          ToastAndroid.SHORT
+        );
+      });
+  }, [state.Overread]);
+  return operators ? (
     <View>
-      <Text>
-        {state.userInfo.username} == {state.userInfo.roler} =({pagenation.total}
-        ш)
-      </Text>
-      {resData.map((el, index) => (
-        <View key={index}>
-          <Text>CreatedDate: {el.CreatedDate}</Text>
-          <Text>_id: {el._id}</Text>
-          <Text>email: {el.email}</Text>
-          <Text>phone: {el.phone}</Text>
-          <Text>roler: {el.roler}</Text>
-          <Text>username: {el.username}</Text>
-          <Text></Text>
-        </View>
-      ))}
+      <Text>{operators.length}</Text>
     </View>
-  )
-}
+  ) : (
+    <></>
+  );
+};

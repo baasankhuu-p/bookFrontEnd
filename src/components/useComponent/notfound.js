@@ -44,7 +44,6 @@ export function OrderNull() {
     </View>
   );
 }
-
 export function DeliveryNull() {
   return (
     <View style={css.container}>
@@ -53,6 +52,17 @@ export function DeliveryNull() {
         source={require("../../assets/image/png/deliveryempty.png")}
       />
       <Text style={css.text}>Хүргэлтийн мэдээлэл хоосон байна</Text>
+    </View>
+  );
+}
+export function PayNull() {
+  return (
+    <View style={css.container}>
+      <Image
+        style={{ width: 100, height: 100 }}
+        source={require("../../assets/image/png/empty_pay.png")}
+      />
+      <Text style={css.text}>Төлбөрийн мэдээлэл хоосон байна</Text>
     </View>
   );
 }
@@ -66,8 +76,10 @@ const css = StyleSheet.create({
   },
   icon: { width: 60, height: 60 },
   text: {
-    fontSize: 15,
+    width: 200,
+    fontSize: 13,
     color: HBColor,
+    fontWeight: "bold",
     paddingHorizontal: 20,
     textAlign: "center",
   },

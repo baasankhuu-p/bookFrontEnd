@@ -1,45 +1,36 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useContext, useState } from "react";
 import {
   StyleSheet,
   View,
   FlatList,
   Text,
-  TouchableOpacity
-} from 'react-native'
-import { CustomBlue, CustomLight, HBColor, HBWhite } from '../Constants'
-import useCategoryBooks from '../service/useCategoryBooks'
-import { getTextSubst, toastInfo } from '../utils/functions'
-import BookItem from './BookItem'
-import { Toast } from 'react-native-toast-message/lib/src/Toast'
-import { useContext } from 'react'
-import UserContext from '../context/userContext'
+  TouchableOpacity,
+} from "react-native";
+import { CustomBlue, CustomLight, HBColor, HBWhite } from "../Constants";
+import useCategoryBooks from "../service/useCategoryBooks";
+import { getTextSubst } from "../utils/functions";
+import BookItem from "./BookItem";
+import UserContext from "../context/userContext";
 
 export default ({ data, searchValue }) => {
   const state = useContext(UserContext);
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
   const [books, setBooks] = useState([]);
-  const [toastMsg, setToastMsg] = useState(null)
   useEffect(() => {
     useCategoryBooks(data.id)
-      .then(result => setBooks(result.data.data))
-      .catch(err => {
-        setToastMsg({ type: 'error', msg: err.response.data.message })
-      })
-  }, [state.Overread])
-  useEffect(() => {
-    if (toastMsg && toastMsg.type)
-      Toast.show(toastInfo(toastMsg.type, toastMsg.msg, 4000))
-    setToastMsg(null)
-  }, [toastMsg])
-  const filterBooks = books.filter(el => el.bookname.includes(searchValue))
+      .then((result) => setBooks(result.data.data))
+      .catch((err) => {
+        state.setMessage(err.response.data.message);
+      });
+  }, [state.Overread]);
+  const filterBooks = books.filter((el) => el.bookname.includes(searchValue));
   return filterBooks.length > 0 ? (
     <View>
       <View style={css.row}>
         <Text style={css.title}>{data.name}</Text>
         <TouchableOpacity
           onPress={() => {
-            setShow(!show)
+            setShow(!show);
           }}
         >
           {show ? (
@@ -48,8 +39,8 @@ export default ({ data, searchValue }) => {
               <Text
                 style={{
                   color: HBColor,
-                  fontWeight: 'bold',
-                  textDecorationLine: 'underline'
+                  fontWeight: "bold",
+                  textDecorationLine: "underline",
                 }}
               >
                 хураах
@@ -63,9 +54,9 @@ export default ({ data, searchValue }) => {
                 style={[
                   {
                     color: HBColor,
-                    fontWeight: 'bold',
-                    textDecorationLine: 'underline'
-                  }
+                    fontWeight: "bold",
+                    textDecorationLine: "underline",
+                  },
                 ]}
               >
                 дэлгэрэнгүй
@@ -76,7 +67,7 @@ export default ({ data, searchValue }) => {
         </TouchableOpacity>
         {
           <FlatList
-            style={{ overflow: 'hidden' }}
+            style={{ overflow: "hidden" }}
             horizontal
             data={filterBooks}
             renderItem={({ item }) => (
@@ -88,30 +79,30 @@ export default ({ data, searchValue }) => {
     </View>
   ) : (
     <></>
-  )
-}
+  );
+};
 
 const css = StyleSheet.create({
   row: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexDirection: "column",
+    justifyContent: "space-between",
     marginBottom: 10,
-    padding: 10
+    padding: 10,
   },
   title: {
     color: HBColor,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 15,
     paddingHorizontal: 10,
-    paddingTop: 5
+    paddingTop: 5,
   },
   desc: {
     paddingHorizontal: 10,
     fontSize: 12,
     color: CustomBlue,
-    paddingTop: 5
-  }
-})
+    paddingTop: 5,
+  },
+});
 const itemCss = StyleSheet.create({
   card: {
     width: 130,
@@ -119,57 +110,57 @@ const itemCss = StyleSheet.create({
     borderRadius: 15,
     shadowRadius: 4,
     margin: 4,
-    padding: 1
+    padding: 1,
   },
   image: {
     height: 130,
-    width: 'auto',
+    width: "auto",
     borderTopLeftRadius: 15,
-    borderTopRightRadius: 15
+    borderTopRightRadius: 15,
   },
   count: {
-    position: 'absolute',
+    position: "absolute",
     top: 2,
     left: 2,
     fontSize: 10,
     padding: 4,
     backgroundColor: HBColor,
     color: CustomLight,
-    borderRadius: 15
+    borderRadius: 15,
   },
   info: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
     paddingVertical: 3,
-    paddingHorizontal: 6
+    paddingHorizontal: 6,
   },
   bookName: {
-    fontSize: 11
+    fontSize: 11,
   },
   author: {
-    fontWeight: 'bold',
-    fontSize: 11
+    fontWeight: "bold",
+    fontSize: 11,
   },
   sale: {
-    color: 'green',
-    textAlign: 'left',
+    color: "green",
+    textAlign: "left",
     flex: 1,
-    fontWeight: 'bold',
-    fontSize: 13
+    fontWeight: "bold",
+    fontSize: 13,
   },
   price: {
-    color: 'green',
-    textAlign: 'left',
+    color: "green",
+    textAlign: "left",
     flex: 1,
-    fontWeight: 'bold',
-    fontSize: 13
+    fontWeight: "bold",
+    fontSize: 13,
   },
   rate: {
-    textAlign: 'right',
-    justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: "right",
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1,
     width: 50,
-    height: 10
-  }
-})
+    height: 10,
+  },
+});

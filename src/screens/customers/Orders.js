@@ -10,7 +10,7 @@ import {
 import Modal from "react-native-modal";
 const thousandify = require("thousandify");
 import { FontAwesome } from "@expo/vector-icons";
-import { CustomLight, HBColor } from "../../Constants";
+import { BackgroundBlueColor, CustomLight, HBColor } from "../../Constants";
 import UserContext from "../../context/userContext";
 import { getOrder, orderPay } from "../../service/customer/useOrder";
 import { OrderNull } from "../../components/useComponent/notfound";
@@ -42,9 +42,9 @@ export default () => {
       .catch((err) => {
         const customErr = err.response.data.message;
         if (!customErr) {
-          setToastObj({ type: "error", msg: `Алдаа: ${err.message}` });
+          state.setMessage(`Алдаа: ${err.message}`);
         } else {
-          setToastObj({ type: "error", msg: customErr });
+          state.setMessage(`Алдаа: ${customErr}`);
         }
       });
   };
@@ -56,7 +56,7 @@ export default () => {
   return (
     <>
       {orders.length > 0 ? (
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: BackgroundBlueColor }}>
           <View>
             <Modal isVisible={isVisible}>
               <View
@@ -80,7 +80,7 @@ export default () => {
                   />
                 </TouchableOpacity>
                 <View style={css.container}>
-                  <Text style={css.title}>Төлбөр төлөх зааварчилгаа</Text>
+                  <Text style={css.title}>Гүйлгээ төлөх зааварчилгаа</Text>
                   <Text style={[css.content, css.txtStyle]}>
                     Хэрэглэгч та Захиалга хийгдсэнээс хойш дор дурдсан дансруу
                     шилжүүлэх ба гүйлгээний утга хэсэгт ЗАХИАЛГЫН КОД /заавал/

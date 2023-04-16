@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   DeliveryNull,
   NotSignIn,
@@ -6,19 +6,19 @@ import {
 import UserContext from "../../context/userContext";
 import { getConfirmDelivery } from "../../service/customer/useDelivery";
 import Delivery from "./Delivery";
+import { useEffect } from "react";
 export default () => {
   const state = useContext(UserContext);
   const [deliveries, setDeliveries] = useState([]);
   useEffect(() => {
-    "";
     getConfirmDelivery(state.token)
       .then((result) => {
         setDeliveries(result.data.data);
       })
       .catch((err) => {
-        console.log(err.response);
+        console.log("Хүргэлтийн мэдээллийг унших үед Алдаа: ", err.message);
       });
-  }, []);
+  }, [state.Overread]);
   return (
     <>
       {state.isLogin ? (

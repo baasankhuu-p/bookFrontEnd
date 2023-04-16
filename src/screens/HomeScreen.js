@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
-import { Toast } from 'react-native-toast-message/lib/src/Toast'
-import useCategory from '../service/useCategory'
-import { CategoryBookList, SearchBook } from '../components'
-import { BackgroundBlueColor, ErrColor } from '../Constants'
-import Spinner from '../components/useComponent/Spinner'
+import React, { useState } from "react";
+import { StyleSheet, ScrollView } from "react-native";
+import useCategory from "../service/useCategory";
+import { CategoryBookList, SearchBook } from "../components";
+import { BackgroundBlueColor, ErrColor } from "../Constants";
+import Spinner from "../components/useComponent/Spinner";
 export default () => {
-  const [searchValue, setSearchValue] = useState('')
-  const [categories, searchCategory, loading] = useCategory()
+  const [searchValue, setSearchValue] = useState("");
+  const [categories, searchCategory, loading] = useCategory();
   return (
     <ScrollView style={css.container}>
       <SearchBook
@@ -17,7 +16,7 @@ export default () => {
       />
       {loading && <Spinner />}
       {categories &&
-        categories.map(category => (
+        categories.map((category) => (
           <CategoryBookList
             searchValue={searchValue}
             key={category._id}
@@ -26,19 +25,19 @@ export default () => {
           />
         ))}
     </ScrollView>
-  )
-}
+  );
+};
 const css = StyleSheet.create({
   container: {
     backgroundColor: BackgroundBlueColor,
     flex: 1,
-    padding: 10
+    padding: 10,
   },
   error: {
     color: ErrColor,
     marginHorizontal: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 20
-  }
-})
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+});

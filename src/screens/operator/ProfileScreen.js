@@ -1,22 +1,11 @@
 import React, { useContext } from "react";
-import { useNavigation } from "@react-navigation/native";
 import UserContext from "../../context/userContext";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Alert,
-  TouchableOpacity,
-} from "react-native";
-import { Feather, AntDesign } from "@expo/vector-icons";
+import { ScrollView, StyleSheet, Text, View, Image, Alert } from "react-native";
 import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
 import MyLbl from "../../components/MyLbl";
 import MyTouchableBtn from "../../components/MyToachableBtn";
 export default () => {
   const state = useContext(UserContext);
-  const navigation = useNavigation();
   const logoutHandler = () => {
     Alert.alert("Анхаар", "Системээс гарахдаа итгэлтэй байна уу.", [
       {
@@ -32,30 +21,19 @@ export default () => {
       },
     ]);
   };
-  const editInformationHandler = () => {
-    navigation.navigate("InformationEdit");
-  };
   return (
     <>
       {state.userInfo && state.userInfo.CreatedDate && (
         <ScrollView style={css.container}>
           <View style={css.profile}>
-            <TouchableOpacity
-              onPress={editInformationHandler}
-              style={{ position: "absolute", right: 10, top: 10 }}
-            >
-              <AntDesign name="edit" size={24} style={css.infoIcon} />
-            </TouchableOpacity>
             <Image
               style={css.image}
-              source={require("../../assets/image/png/user.png")}
+              source={require("../../assets/image/png/operator.png")}
             />
-            <Text style={css.username}>
-              {state.userInfo.lname} {state.userInfo.fname}
-            </Text>
+            <Text style={css.username}>{state.userInfo.username}</Text>
           </View>
 
-          <MyLbl iconname="location-outline" text={state.userInfo.address} />
+          <MyLbl iconname="logo-steam" text={state.userInfo.roler} />
           <MyLbl iconname="md-mail-open-outline" text={state.userInfo.email} />
           <MyLbl iconname="call-outline" text={state.userInfo.phone} />
           <MyLbl

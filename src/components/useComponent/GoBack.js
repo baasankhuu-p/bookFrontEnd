@@ -1,10 +1,12 @@
-import { Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { HBColor } from "../../Constants";
 
 export default () => {
   return (
-    <Image
-      source={require("../../assets/image/png/back.png")}
-      style={{ width: 25, height: 25, marginLeft: 15 }}
+    <Ionicons
+      style={{ marginLeft: 15, color: HBColor }}
+      name="arrow-back-circle"
+      size={30}
     />
   );
 };
