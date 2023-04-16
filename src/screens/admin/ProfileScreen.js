@@ -75,6 +75,7 @@ const css = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: OCustomGray,
+    marginTop: 25,
   },
   profile: {
     flex: 1,

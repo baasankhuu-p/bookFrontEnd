@@ -16,7 +16,10 @@ export default () => {
         setDeliveries(result.data.data);
       })
       .catch((err) => {
-        console.log("Хүргэлтийн мэдээллийг унших үед Алдаа: ", err.message);
+        console.log(
+          "Хүргэлтийн мэдээллийг унших үед Алдаа: ",
+          err.response.data.data.message
+        );
       });
   }, [state.Overread]);
   return (

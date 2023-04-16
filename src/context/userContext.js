@@ -68,7 +68,6 @@ export const UserStore = (props) => {
         address: address.trim(),
       })
       .then((result) => {
-        console.log(`Амжилттай бүртгэлээ`);
         loginUserSuccessful(
           result.data.token,
           email,
@@ -81,7 +80,7 @@ export const UserStore = (props) => {
       });
   };
   const loginUserSuccessful = async (token, email, password, userInfo) => {
-    setMessage("Амжилттай");
+    setMessage("Амжилттай нэвтэрлээ");
     setIsLogin(true);
     setToken(token);
     setEmail(email);

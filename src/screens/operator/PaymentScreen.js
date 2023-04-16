@@ -1,12 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  ScrollView,
-  View,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, ScrollView, View, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 const thousandify = require("thousandify");
 import { PayNull } from "../../components/useComponent/notfound";
@@ -20,7 +13,6 @@ export default () => {
     if (state.token) {
       getPaymentAll(state.token)
         .then((result) => {
-          console.log("===============Pay=============>", result.data.data);
           setPayment(result.data.data);
         })
         .catch((err) => {
@@ -28,7 +20,6 @@ export default () => {
           console.log(err.response.data);
         });
     }
-    console.log(payment);
   }, [state.Overread]);
   return payment ? (
     <View style={{ flex: 1, backgroundColor: BackgroundBlueColor }}>
@@ -36,41 +27,38 @@ export default () => {
         <View style={css.innerContainer}>
           <Text style={css.count}>Гүйлгээний тоо: {payment.length}</Text>
         </View>
-        <FlatList
-          data={payment}
-          renderItem={({ item, index }) => {
-            return (
-              //Grid
-              <View key={index}>
-                <View style={css.item}>
-                  <Text style={css.infoitem}>{item.CustomerId.phone}</Text>
-                  <Text style={css.infoitem}>
-                    ({item.PaymentID.PaymentRndID})
-                  </Text>
-                  <Text style={css.infoitem}>{thousandify(item.Price)}₮</Text>
-                  <Text style={css.infoitem}>
-                    ({item.PaymentID.PaymentDate.split("T")[0]})
-                  </Text>
-                  <Text style={css.infoitem}>
-                    {item.DeliverID ? (
-                      <Ionicons
-                        style={[css.infoitem, css.checked]}
-                        name="checkmark-circle"
-                        size={14}
-                      />
-                    ) : (
-                      <Ionicons
-                        style={[css.infoitem, css.notchecked]}
-                        name="checkmark-circle-outline"
-                        size={14}
-                      />
-                    )}
-                  </Text>
-                </View>
+        {payment.map((item, index) => {
+          return (
+            //Grid
+            <View key={index}>
+              <View style={css.item}>
+                <Text style={css.infoitem}>{item.CustomerId.phone}</Text>
+                <Text style={css.infoitem}>
+                  ({item.PaymentID.PaymentRndID})
+                </Text>
+                <Text style={css.infoitem}>{thousandify(item.Price)}₮</Text>
+                <Text style={css.infoitem}>
+                  ({item.PaymentID.PaymentDate.split("T")[0]})
+                </Text>
+                <Text style={css.infoitem}>
+                  {item.DeliverID ? (
+                    <Ionicons
+                      style={[css.infoitem, css.checked]}
+                      name="checkmark-circle"
+                      size={14}
+                    />
+                  ) : (
+                    <Ionicons
+                      style={[css.infoitem, css.notchecked]}
+                      name="checkmark-circle-outline"
+                      size={14}
+                    />
+                  )}
+                </Text>
               </View>
-            );
-          }}
-        />
+            </View>
+          );
+        })}
       </ScrollView>
     </View>
   ) : (

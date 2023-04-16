@@ -7,11 +7,16 @@ export const getOperators = (token) => {
   return axios.get(`${RestApiUrl}/api/manage`, config);
 };
 
-export const updateManage = (token, id) => {
+export const updateManage = (token, data, id) => {
+  const body = {
+    username: data.username,
+    email: data.email,
+    phone: data.phone,
+  };
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axios.put(`${RestApiUrl}/api/manage/${id}`, config);
+  return axios.put(`${RestApiUrl}/api/manage/${id}`, body, config);
 };

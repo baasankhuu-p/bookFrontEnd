@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import {
   Text,
   ScrollView,
-  FlatList,
   TouchableOpacity,
   View,
   StyleSheet,
@@ -130,16 +129,20 @@ export default () => {
               </Text>
             </View>
           </TouchableOpacity>
-          <FlatList
-            data={orders}
-            numColumns={3}
-            renderItem={({ item }) => <OrderItem item={item} />}
-            keyExtractor={(item) => item.Book._id}
-            contentContainerStyle={{
+          <View
+            style={{
               paddingHorizontal: 10,
               flex: 1,
+              flexDirection: "row",
+              flexWrap: "wrap",
             }}
-          />
+          >
+            {orders.map((order, index) => (
+              <View style={{ width: "33%", padding: 5 }} key={index}>
+                <OrderItem item={order} />
+              </View>
+            ))}
+          </View>
         </ScrollView>
       ) : (
         <OrderNull />

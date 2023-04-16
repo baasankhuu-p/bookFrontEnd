@@ -41,7 +41,7 @@ export default ({ item }) => {
   return (
     <View
       style={{
-        flexDirection: "column",
+        flexDirection: "row",
         alignItems: "center",
         margin: 5,
       }}

@@ -14,7 +14,6 @@ import UserContext from "../../../context/userContext";
 import { getConfirmDelivery } from "../../../service/operator/useDelivery";
 import { DeliveryNull } from "../../../components/useComponent/notfound";
 import { BackgroundBlueColor, CustomLight, HBColor } from "../../../Constants";
-import { FlatList } from "react-native";
 import { getTextSubst } from "../../../utils/functions";
 
 export default () => {
@@ -25,7 +24,6 @@ export default () => {
     getConfirmDelivery(state.token)
       .then((result) => {
         setDeliveries(result.data.data);
-        console.log(deliveries);
       })
       .catch((err) => {
         console.log(err.result.data.message);
@@ -101,12 +99,10 @@ export default () => {
                     <Text style={modalcss.titlesmall}>Хүргэгдсэн ном</Text>
 
                     <View style={modalcss.content}>
-                      <FlatList
-                        horizontal
-                        data={ditem.Orderdata}
-                        renderItem={({ item }) => {
+                      <ScrollView horizontal>
+                        {ditem.Orderdata.map((item, index) => {
                           return (
-                            <View style={modalcss.imageItem}>
+                            <View style={modalcss.imageItem} key={index}>
                               <Image
                                 style={modalcss.image}
                                 source={{
@@ -121,8 +117,8 @@ export default () => {
                               </Text>
                             </View>
                           );
-                        }}
-                      />
+                        })}
+                      </ScrollView>
                     </View>
                   </View>
                 </View>
@@ -134,35 +130,32 @@ export default () => {
             <View style={css.innerContainer}>
               <Text style={css.count}>Нийт: {deliveries.length}</Text>
             </View>
-            <FlatList
-              data={deliveries}
-              renderItem={({ item, index }) => {
-                return (
-                  //Grid
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => onHandlerDlvr({ data: item })}
-                  >
-                    <View style={css.item}>
-                      <Text style={css.fname}>
-                        {item.delivery.CustomerId.fname}
-                      </Text>
-                      <Text style={css.phone}>
-                        {item.delivery.CustomerId.phone}
-                      </Text>
-                      <Text style={css.date}>
-                        {item.delivery.DeliveryDate.split("T")[0]}
-                      </Text>
-                      <MaterialCommunityIcons
-                        style={css.delIcon}
-                        name="unfold-more-horizontal"
-                        size={18}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
+            {deliveries.map((item, index) => {
+              return (
+                //Grid
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => onHandlerDlvr({ data: item })}
+                >
+                  <View style={css.item}>
+                    <Text style={css.fname}>
+                      {item.delivery.CustomerId.fname}
+                    </Text>
+                    <Text style={css.phone}>
+                      {item.delivery.CustomerId.phone}
+                    </Text>
+                    <Text style={css.date}>
+                      {item.delivery.DeliveryDate.split("T")[0]}
+                    </Text>
+                    <MaterialCommunityIcons
+                      style={css.delIcon}
+                      name="unfold-more-horizontal"
+                      size={18}
+                    />
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </View>
       ) : (

@@ -129,12 +129,10 @@ export default () => {
                     <Text style={modalcss.titlesmall}>Захиалгат ном</Text>
 
                     <View style={modalcss.content}>
-                      <FlatList
-                        horizontal
-                        data={ditem.item}
-                        renderItem={({ item }) => {
+                      <ScrollView horizontal>
+                        {ditem.item.map((item, index) => {
                           return (
-                            <View style={modalcss.imageItem}>
+                            <View style={modalcss.imageItem} key={index}>
                               <Image
                                 style={modalcss.image}
                                 source={{
@@ -149,8 +147,8 @@ export default () => {
                               </Text>
                             </View>
                           );
-                        }}
-                      />
+                        })}
+                      </ScrollView>
                     </View>
                     <TouchableOpacity onPress={() => createDelivery(ditem)}>
                       <Text style={modalcss.send}>Хүргэлт хийх</Text>
@@ -164,35 +162,32 @@ export default () => {
             <View style={css.innerContainer}>
               <Text style={css.count}>Нийт: {deliveries.length}</Text>
             </View>
-            <FlatList
-              data={deliveries}
-              renderItem={({ item, index }) => {
-                return (
-                  //Grid
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => onHandlerDlvr({ data: item })}
-                  >
-                    <View style={css.item}>
-                      <Text style={css.fname}>
-                        {item.Orderdata.CustomerId.fname}
-                      </Text>
-                      <Text style={css.phone}>
-                        {item.Orderdata.CustomerId.phone}
-                      </Text>
-                      <Text style={css.date}>
-                        {item.Orderdata.OrderDate.split("T")[0]}
-                      </Text>
-                      <MaterialCommunityIcons
-                        style={css.delIcon}
-                        name="truck-delivery-outline"
-                        size={18}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
+            {deliveries.map((item, index) => {
+              return (
+                //Grid
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => onHandlerDlvr({ data: item })}
+                >
+                  <View style={css.item}>
+                    <Text style={css.fname}>
+                      {item.Orderdata.CustomerId.fname}
+                    </Text>
+                    <Text style={css.phone}>
+                      {item.Orderdata.CustomerId.phone}
+                    </Text>
+                    <Text style={css.date}>
+                      {item.Orderdata.OrderDate.split("T")[0]}
+                    </Text>
+                    <MaterialCommunityIcons
+                      style={css.delIcon}
+                      name="truck-delivery-outline"
+                      size={18}
+                    />
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </View>
       ) : (

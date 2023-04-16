@@ -26,14 +26,9 @@ export default () => {
     updateCustomer(state.token, data)
       .then((result) => {
         state.setMessage("Амжилттай хадгаллаа");
-        state.setUserInfo({
-          CreatedDate: state.userInfo.CreatedDate,
-          __v: 0,
-          _id: state.userInfo._id,
-          password: state.userInfo.password,
-          ...data,
-        });
-        navigation.navigate("Profile");
+        setTimeout(() => {
+          state.logout();
+        }, 2000);
       })
       .catch((err) => {
         state.setMessage(err.response.data.message);

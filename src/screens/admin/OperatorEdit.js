@@ -1,32 +1,44 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/userContext";
-import { ScrollView, StyleSheet, View, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Image,
+  ToastAndroid,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
-import { updateCustomer } from "../../service/admin/useCustomer";
 import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
 import MyTextInput from "../../components/MyTextInput";
 import MyTouchableBtn from "../../components/MyToachableBtn";
 import { updateManage } from "../../service/admin/useOperator";
-export default () => {
+export default ({ route }) => {
   const state = useContext(UserContext);
+  const data = route.params.data;
+
   const navigation = useNavigation();
-  const [username, setUsername] = useState(state.userInfo.username);
-  const [email, setEmail] = useState(state.userInfo.email);
-  const [phone, setPhone] = useState(`${state.userInfo.phone}`);
+  const [username, setUsername] = useState(data.username);
+  const [email, setEmail] = useState(data.email);
+  const [phone, setPhone] = useState(`${data.phone}`);
+
   const saveHandler = () => {
-    const data = {
-      username,
-      email,
-      phone,
+    const item = {
+      username: username,
+      email: email,
+      phone: phone,
     };
-    updateManage(state.token, data, state.userInfo._id)
+    updateManage(state.token, item, data._id)
       .then((result) => {
-        state.setMessage("Амжилттай хадгаллаа");
-        state.logout();
+        ToastAndroid.show("Амжилттай хадгаллаа: ", ToastAndroid.SHORT);
+        state.setOverread(!state.Overread);
+        navigation.goBack();
       })
       .catch((err) => {
         state.setMessage(err.response.data.message);
+        ToastAndroid.show(
+          "Өөрчлөх явцад алдаа гарлаа: " + err.response.data.message,
+          ToastAndroid.SHORT
+        );
       });
   };
   const cancelHandler = () => {
@@ -37,12 +49,12 @@ export default () => {
   };
   return (
     <>
-      {state.userInfo && state.userInfo.CreatedDate && (
+      {data && data.CreatedDate && (
         <ScrollView style={css.container}>
           <View style={css.profile}>
             <Image
               style={css.image}
-              source={require("../../assets/image/png/admin.png")}
+              source={require("../../assets/image/png/operator.png")}
             />
           </View>
 
