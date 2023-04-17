@@ -102,7 +102,7 @@ export default ({ ref }) => {
                 },
               })}
             >
-              <Tab.Screen name="Ном" component={Text} />
+              <Tab.Screen name="Ном" component={opTab1} />
               <Tab.Screen name="Категори" component={Text} />
               <Tab.Screen name="Гүйлгээ" component={opTab3} />
               <Tab.Screen name="Хүргэлт" component={opTab4} />

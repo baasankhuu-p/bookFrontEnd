@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import UserContext from "../../context/userContext";
 import {
   ScrollView,
@@ -6,29 +6,33 @@ import {
   View,
   Image,
   ToastAndroid,
+  Text,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
 import MyTextInput from "../../components/MyTextInput";
 import MyTouchableBtn from "../../components/MyToachableBtn";
-import { updateOperator } from "../../service/admin/useOperator";
-import { Text } from "react-native";
+import { updateCustomers } from "../../service/admin/useCustomer";
 export default ({ route }) => {
   const state = useContext(UserContext);
   const data = route.params.data;
 
   const navigation = useNavigation();
-  const [username, setUsername] = useState(data.username);
+  const [lname, setLname] = useState(data.lname);
+  const [fname, setFname] = useState(data.fname);
   const [email, setEmail] = useState(data.email);
+  const [address, setAddress] = useState(data.address);
   const [phone, setPhone] = useState(`${data.phone}`);
 
   const saveHandler = () => {
     const item = {
-      username: username.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
+      lname: lname,
+      fname: fname,
+      email: email,
+      address: address,
+      phone: phone,
     };
-    updateOperator(state.token, item, data._id)
+    updateCustomers(state.token, item, data._id)
       .then((result) => {
         ToastAndroid.show("Амжилттай хадгаллаа: ", ToastAndroid.SHORT);
         state.setOverread(!state.Overread);
@@ -43,9 +47,12 @@ export default ({ route }) => {
       });
   };
   const cancelHandler = () => {
-    setUsername(null);
-    setEmail(null);
+    setLname(null);
+    setFname(null);
     setPhone(null);
+    setEmail(null);
+    setAddress(null);
+
     navigation.goBack();
   };
   return (
@@ -55,15 +62,22 @@ export default ({ route }) => {
           <View style={css.profile}>
             <Image
               style={css.image}
-              source={require("../../assets/image/png/operator.png")}
+              source={require("../../assets/image/png/adduser.png")}
             />
-            <Text style={css.username}>Ажилчид</Text>
+            <Text style={css.username}>Үйлчлүүлэгчид</Text>
           </View>
 
           <View style={{ marginTop: 10 }}>
             <MyTextInput
-              onChangeText={setUsername}
-              value={username}
+              onChangeText={setLname}
+              value={lname}
+              autoCapitalize="none"
+              iconname="person-outline"
+              placeholder="Овог оруулна уу"
+            />
+            <MyTextInput
+              onChangeText={setFname}
+              value={fname}
               autoCapitalize="none"
               iconname="person-outline"
               placeholder="Нэрээ оруулна уу"
@@ -73,14 +87,21 @@ export default ({ route }) => {
               value={email}
               autoCapitalize="none"
               iconname="md-mail-open-outline"
-              placeholder="имейл хаягаа оруулна уу"
+              placeholder="И-мейл хаяг"
             />
             <MyTextInput
               onChangeText={setPhone}
               value={phone}
               iconname="call-outline"
               keyboardType="numeric"
-              placeholder="Дугаараа оруулна уу"
+              placeholder="Холбоо барих дугаараа"
+            />
+            <MyTextInput
+              onChangeText={setAddress}
+              autoCapitalize="none"
+              placeholder="Гэрийн хаяг"
+              value={address}
+              iconname="location-outline"
             />
           </View>
           <View style={{ marginTop: 10 }}>

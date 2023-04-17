@@ -5,7 +5,7 @@ const thousandify = require("thousandify");
 import { PayNull } from "../../components/useComponent/notfound";
 import UserContext from "../../context/userContext";
 import { getPaymentAll } from "../../service/usePayment";
-import { BackgroundBlueColor, HBColor } from "../../Constants";
+import { BackgroundBlueColor, CustomLight, HBColor } from "../../Constants";
 export default () => {
   const state = useContext(UserContext);
   const [payment, setPayment] = useState(null);
@@ -27,17 +27,36 @@ export default () => {
         <View style={css.innerContainer}>
           <Text style={css.count}>Гүйлгээний тоо: {payment.length}</Text>
         </View>
+
+        <View>
+          <View
+            style={{
+              ...css.item,
+              backgroundColor: HBColor,
+            }}
+          >
+            <Text style={[css.infotitle, css.phone]}>Дугаар</Text>
+            <Text style={[css.infotitle, css.rndmCount]}>Гүйлгээ/утга</Text>
+            <Text style={[css.infotitle, css.price]}>Үнэ/₮</Text>
+            <Text style={[css.infotitle, css.date]}>Огноо</Text>
+            <Text style={{ ...css.infoitem }}></Text>
+          </View>
+        </View>
         {payment.map((item, index) => {
           return (
             //Grid
             <View key={index}>
               <View style={css.item}>
-                <Text style={css.infoitem}>{item.CustomerId.phone}</Text>
-                <Text style={css.infoitem}>
+                <Text style={[css.infoitem, css.phone]}>
+                  {item.CustomerId.phone}
+                </Text>
+                <Text style={[css.infoitem, css.rndmCount]}>
                   ({item.PaymentID.PaymentRndID})
                 </Text>
-                <Text style={css.infoitem}>{thousandify(item.Price)}₮</Text>
-                <Text style={css.infoitem}>
+                <Text style={[css.infoitem, css.price]}>
+                  {thousandify(item.Price)}₮
+                </Text>
+                <Text style={[css.infoitem, css.date]}>
                   ({item.PaymentID.PaymentDate.split("T")[0]})
                 </Text>
                 <Text style={css.infoitem}>
@@ -93,19 +112,31 @@ const css = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    borderWidth: 0.2,
-    borderColor: HBColor,
+    backgroundColor: CustomLight,
     borderRadius: 5,
     marginHorizontal: 10,
-    marginVertical: 5,
+    marginVertical: 1,
     paddingVertical: 10,
     paddingHorizontal: 5,
+  },
+  infotitle: {
+    fontSize: 13,
+    color: CustomLight,
+    fontWeight: "bold",
   },
   infoitem: {
     color: HBColor,
     fontSize: 11,
-    fontWeight: "bold",
   },
+  phone: {
+    width: "16%",
+  },
+  rndmCount: { width: "32%" },
+  price: { width: "16%" },
+  date: {
+    width: "26%",
+  },
+
   checked: {
     color: "green",
   },

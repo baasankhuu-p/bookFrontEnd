@@ -28,8 +28,11 @@ export default ({ deliveries }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  Хүргэгдсэн огноо: {"  "}
-                  {el.date.split("T")[0]}
+                  Хүргэгдсэн огноо: {el.date.split("T")[0]}
+                  {"  "}
+                  {el.date.split("T")[1].split(":")[0]}:
+                  {el.date.split("T")[1].split(":")[1]}:
+                  {el.date.split(":")[2].split(".")[0]}
                 </Text>
               </View>
             </View>

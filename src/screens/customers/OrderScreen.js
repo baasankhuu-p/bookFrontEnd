@@ -12,6 +12,7 @@ export default () => {
     <>
       {state.isLogin ? (
         <Tab.Navigator
+          initialRouteName="NotConfirmOrder"
           screenOptions={{
             tabBarLabelStyle: {
               fontSize: 9,

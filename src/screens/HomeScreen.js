@@ -18,8 +18,8 @@ export default () => {
       {categories &&
         categories.map((category) => (
           <CategoryBookList
-            searchValue={searchValue}
             key={category._id}
+            searchValue={searchValue}
             style={{ marginVertical: 10 }}
             data={category}
           />

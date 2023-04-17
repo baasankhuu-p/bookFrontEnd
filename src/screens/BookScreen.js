@@ -6,7 +6,7 @@ import {
   HBColor,
   HBWhite,
 } from "../Constants"; // Uund programmdaa ashglah undsen unguud bolon API hostoo tohiruulj ogsn
-import useBooks from "../service/useBooks"; //API-tai haritsah code
+import { getBooks } from "../service/useBooks"; //API-tai haritsah code
 import BookItem from "./../components/BookItem"; // hereglegchiin component->Nom bolgoniig neg component bolgoj avsn
 import Spinner from "../components/useComponent/Spinner"; //  hereglegchiin component ->reload hiij bhd tur huleene uu gesen achaalliig haruulah
 import SearchBook from "../components/SearchBook"; // hereglegchiin component->nom haih
@@ -18,7 +18,7 @@ export default () => {
   const [loading, setLoading] = useState(true);
   const state = useContext(UserContext);
   useEffect(() => {
-    useBooks()
+    getBooks()
       .then((result) => {
         setBooks(result.data.data);
         setLoading(false);
@@ -71,6 +71,7 @@ const itemCss = StyleSheet.create({
     width: "40%",
     borderRadius: 15,
     marginVertical: 2,
+    height: "auto",
   },
   count: {
     position: "absolute",

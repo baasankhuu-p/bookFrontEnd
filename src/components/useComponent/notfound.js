@@ -51,7 +51,6 @@ export function DeliveryNull() {
         style={css.icon}
         source={require("../../assets/image/png/deliveryempty.png")}
       />
-      <Text style={css.text}>Хүргэлтийн мэдээлэл хоосон байна</Text>
     </View>
   );
 }
@@ -62,7 +61,6 @@ export function PayNull() {
         style={{ width: 100, height: 100 }}
         source={require("../../assets/image/png/empty_pay.png")}
       />
-      <Text style={css.text}>Төлбөрийн мэдээлэл хоосон байна</Text>
     </View>
   );
 }

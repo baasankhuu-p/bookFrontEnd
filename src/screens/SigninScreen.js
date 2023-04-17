@@ -13,13 +13,15 @@ import {
   BackgroundBlueColor,
   CustomLight,
 } from "../Constants";
+import { useNavigation } from "@react-navigation/native";
 import { MyTextInput } from "../components";
 import MyToachableBtn from "../components/MyToachableBtn";
 import UserContext from "../context/userContext";
 export default () => {
+  const navigation = useNavigation();
   const state = useContext(UserContext);
-  const [email, setEmail] = useState("admin@gmail.com");
-  const [password, setPassword] = useState("1234");
+  const [email, setEmail] = useState("baasankhuu@gmail.com");
+  const [password, setPassword] = useState("12345678");
   const onHandlerSignin = () => {
     if (email == "" || password == "") {
       state.setMessage("Мэдээллээ бүрэн бөглөнө үү ⚠");

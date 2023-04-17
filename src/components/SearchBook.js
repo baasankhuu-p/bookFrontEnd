@@ -3,9 +3,9 @@ import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { CustomBlue, HBColor, OCustomGray } from "../Constants";
 
-export default ({ value, onValueChange, onFinishEnter }) => {
+export default ({ value, onValueChange, onFinishEnter, customstyle = "" }) => {
   return (
-    <View style={css.container}>
+    <View style={{ ...css.container, ...customstyle }}>
       <View style={css.iconContainer}>
         <Feather name="search" color="white" />
       </View>

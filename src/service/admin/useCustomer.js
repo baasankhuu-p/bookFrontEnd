@@ -7,18 +7,35 @@ export const getCustomers = (token) => {
   return axios.get(`${RestApiUrl}/api/customer`, config);
 };
 
+export const updateCustomers = (token, data, id) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios.put(`${RestApiUrl}/api/customer/${id}`, data, config);
+};
 export const updateCustomer = (token, data) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const body = {
-    fname: data.fname,
-    lname: data.lname,
-    address: data.address,
-    email: data.email,
-    phone: data.phone,
+  return axios.put(`${RestApiUrl}/api/customer`, data, config);
+};
+export const createCustomer = (token, data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   };
-  return axios.put(`${RestApiUrl}/api/customer`, body, config);
+  return axios.post(`${RestApiUrl}/api/customer`, data, config);
+};
+export const deleteCustomer = (token, id) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios.delete(`${RestApiUrl}/api/customer/${id}`, config);
 };

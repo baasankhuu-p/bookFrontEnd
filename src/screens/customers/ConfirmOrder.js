@@ -51,7 +51,10 @@ export default () => {
                       {el.Payment.PaymentDate.split("T")[0].replaceAll(
                         "-",
                         "/"
-                      )}
+                      )}{" "}
+                      {el.Payment.PaymentDate.split("T")[1].split(":")[0]}:
+                      {el.Payment.PaymentDate.split("T")[1].split(":")[1]}:
+                      {el.Payment.PaymentDate.split(":")[2].split(".")[0]}
                     </Text>
                   </View>
                   <View style={css.info}>

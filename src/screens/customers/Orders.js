@@ -17,7 +17,7 @@ import OrderItem from "../../components/OrderItem";
 export default () => {
   const state = useContext(UserContext);
   //Zahialgiin nomuud
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(null);
   const [payInfo, setPayinfo] = useState({});
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -49,12 +49,12 @@ export default () => {
   };
   const visibleClose = () => {
     setIsVisible(false);
-    setOrders([]);
+    setOrders(null);
     state.setOverread(!state.Overread);
   };
   return (
     <>
-      {orders.length > 0 ? (
+      {orders && orders.length > 0 ? (
         <ScrollView style={{ backgroundColor: BackgroundBlueColor }}>
           <View>
             <Modal isVisible={isVisible}>
@@ -79,7 +79,7 @@ export default () => {
                   />
                 </TouchableOpacity>
                 <View style={css.container}>
-                  <Text style={css.title}>Гүйлгээ төлөх зааварчилгаа</Text>
+                  <Text style={css.title}>Гүйлгээ хийх зааварчилгаа</Text>
                   <Text style={[css.content, css.txtStyle]}>
                     Хэрэглэгч та Захиалга хийгдсэнээс хойш дор дурдсан дансруу
                     шилжүүлэх ба гүйлгээний утга хэсэгт ЗАХИАЛГЫН КОД /заавал/

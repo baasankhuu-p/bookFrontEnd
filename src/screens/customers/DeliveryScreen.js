@@ -18,7 +18,7 @@ export default () => {
       .catch((err) => {
         console.log(
           "Хүргэлтийн мэдээллийг унших үед Алдаа: ",
-          err.response.data.data.message
+          err.response.data.message
         );
       });
   }, [state.Overread]);

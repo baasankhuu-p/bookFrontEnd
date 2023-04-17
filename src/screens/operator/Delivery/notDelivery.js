@@ -21,20 +21,23 @@ import {
 import { DeliveryNull } from "../../../components/useComponent/notfound";
 import { BackgroundBlueColor, CustomLight, HBColor } from "../../../Constants";
 import { getTextSubst } from "../../../utils/functions";
-import { useNavigation } from "@react-navigation/native";
+import Spinner from "../../../components/useComponent/Spinner";
 
 export default () => {
   const state = useContext(UserContext);
-  const navigation = useNavigation();
-  const [deliveries, setDeliveries] = useState(null);
+  const [deliveries, setDeliveries] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     getNotDelivery(state.token)
       .then((result) => {
-        setDeliveries(result.data.data);
+        if (result.data.data) {
+          setDeliveries(result.data.data);
+        }
       })
       .catch((err) => {
-        console.log(err.result.data);
+        if (err.result.data) {
+          console.log(err.result.data);
+        }
       });
   }, [state.Overread]);
 
@@ -51,21 +54,25 @@ export default () => {
       OrderID: deliveritem.Orderdata.id,
     };
     if (body && state.token) {
+      setDeliveries([]);
       createDeliveries(state.token, body)
         .then((result) => {
+          state.setOverread(!state.Overread);
           ToastAndroid.show("Хүргэлтийг баталгаажууллаа", ToastAndroid.SHORT);
           visibleClose();
-          navigation.navigate("ConfirmDelivery");
-          state.setOverread(!state.Overread);
         })
         .catch((err) => {
-          console.log(err.response.data.message);
+          state.setOverread(!state.Overread);
+          visibleClose();
           ToastAndroid.show(
-            `Алдаа: ${err.response.data.message}`,
+            `Алдаа: ${
+              err.response.data.message
+                ? err.response.data.message
+                : err.message
+            }`,
             ToastAndroid.SHORT
           );
         });
-      state.setOverread(!state.Overread);
     }
   };
   const visibleClose = () => {

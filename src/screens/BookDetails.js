@@ -61,7 +61,7 @@ export default ({ route }) => {
           CreateOrder(bookID, ordercount, token)
             .then((result) => {
               state.setMessage("Захиалга амжилттай хийгдлээ");
-              navigation.navigate("NotConfirmOrder");
+              navigation.navigate("Захиалга");
               state.setOverread(!state.Overread);
             })
             .catch((err) => {

@@ -2,12 +2,10 @@ import React, { useContext, useState } from "react";
 import UserContext from "../../context/userContext";
 import { ScrollView, StyleSheet, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
-import { updateCustomer } from "../../service/admin/useCustomer";
 import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
 import MyTextInput from "../../components/MyTextInput";
 import MyTouchableBtn from "../../components/MyToachableBtn";
-import { updateManage } from "../../service/admin/useOperator";
+import { updateOperator } from "../../service/admin/useOperator";
 export default () => {
   const state = useContext(UserContext);
   const navigation = useNavigation();
@@ -16,11 +14,11 @@ export default () => {
   const [phone, setPhone] = useState(`${state.userInfo.phone}`);
   const saveHandler = () => {
     const data = {
-      username,
-      email,
-      phone,
+      username: username.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
     };
-    updateManage(state.token, data, state.userInfo._id)
+    updateOperator(state.token, data, state.userInfo._id)
       .then((result) => {
         state.setMessage("Амжилттай хадгаллаа");
         state.logout();
