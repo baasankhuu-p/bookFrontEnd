@@ -9,7 +9,12 @@ import {
 import Modal from "react-native-modal";
 const thousandify = require("thousandify");
 import { FontAwesome } from "@expo/vector-icons";
-import { BackgroundBlueColor, CustomLight, HBColor } from "../../Constants";
+import {
+  BackgroundBlueColor,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+} from "../../Constants";
 import UserContext from "../../context/userContext";
 import { getOrder, orderPay } from "../../service/customer/useOrder";
 import { OrderNull } from "../../components/useComponent/notfound";
@@ -159,8 +164,6 @@ const css = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: CustomLight,
     borderRadius: 20,
-    borderWidth: 5,
-    borderColor: HBColor,
     color: HBColor,
   },
   title: {
@@ -182,7 +185,7 @@ const css = StyleSheet.create({
     padding: 10,
     borderWidth: 2,
     borderRadius: 10,
-    borderColor: HBColor,
+    borderColor: OCustomGray,
   },
   txtStyle: {
     fontSize: 12,

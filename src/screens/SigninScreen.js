@@ -6,6 +6,8 @@ import {
   StyleSheet,
   ScrollView,
   Switch,
+  StatusBar,
+  SafeAreaView,
 } from "react-native";
 import {
   CustomBlue,
@@ -30,56 +32,59 @@ export default () => {
   };
 
   return (
-    <ScrollView style={css.container}>
-      <Image
-        style={css.image}
-        source={require("../assets/image/png/Signin.png")}
-      />
-      <View style={{ margin: 4 }}>
-        <Text style={css.heading}>
-          Онлайн номын дэлгүүрт тавтай морилно уу.
-        </Text>
-        <View style={css.switch}>
-          <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={state.isManageRole ? CustomLight : HBColor}
-            onValueChange={state.toggleSwitch}
-            value={state.isManageRole}
+    <SafeAreaView style={{ flex: 1, backgroundColor: BackgroundBlueColor }}>
+      <StatusBar backgroundColor={HBColor} />
+      <ScrollView style={css.container}>
+        <Image
+          style={css.image}
+          source={require("../assets/image/png/Signin.png")}
+        />
+        <View style={{ margin: 4 }}>
+          <Text style={css.heading}>
+            Онлайн номын дэлгүүрт тавтай морилно уу.
+          </Text>
+          <View style={css.switch}>
+            <Switch
+              trackColor={{ false: "#767577", true: "#81b0ff" }}
+              thumbColor={state.isManageRole ? CustomLight : HBColor}
+              onValueChange={state.toggleSwitch}
+              value={state.isManageRole}
+            />
+            <Text style={css.manage}>Удирдлагын эрх</Text>
+          </View>
+          <MyTextInput
+            onChangeText={setEmail}
+            value={email}
+            autoCapitalize="none"
+            placeholder="Имейл хаягаа оруулна уу"
+            iconname="person-outline"
           />
-          <Text style={css.manage}>Удирдлагын эрх</Text>
-        </View>
-        <MyTextInput
-          onChangeText={setEmail}
-          value={email}
-          autoCapitalize="none"
-          placeholder="Имейл хаягаа оруулна уу"
-          iconname="person-outline"
-        />
-        <MyTextInput
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          secureTextEntry={true}
-          placeholder="Нууц үгээ оруулна уу"
-          value={password}
-          iconname="build-outline"
-        />
-        <MyToachableBtn
-          iconname="log-in-outline"
-          btncss={{ backgroundColor: CustomBlue }}
-          title="НЭВТРЭХ"
-          onPress={onHandlerSignin}
-        />
+          <MyTextInput
+            onChangeText={setPassword}
+            autoCapitalize="none"
+            secureTextEntry={true}
+            placeholder="Нууц үгээ оруулна уу"
+            value={password}
+            iconname="build-outline"
+          />
+          <MyToachableBtn
+            iconname="log-in-outline"
+            btncss={{ backgroundColor: CustomBlue }}
+            title="НЭВТРЭХ"
+            onPress={onHandlerSignin}
+          />
 
-        <MyToachableBtn
-          iconname="add-circle-outline"
-          btncss={{ backgroundColor: "orange" }}
-          title="БҮРТГҮҮЛЭХ"
-          onPress={() => {
-            navigation.navigate("Signup");
-          }}
-        />
-      </View>
-    </ScrollView>
+          <MyToachableBtn
+            iconname="add-circle-outline"
+            btncss={{ backgroundColor: "orange" }}
+            title="БҮРТГҮҮЛЭХ"
+            onPress={() => {
+              navigation.navigate("Signup");
+            }}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -87,7 +92,6 @@ const css = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    marginTop: 20,
     backgroundColor: BackgroundBlueColor,
   },
   image: {

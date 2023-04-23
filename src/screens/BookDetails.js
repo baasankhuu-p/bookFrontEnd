@@ -48,7 +48,7 @@ export default ({ route }) => {
       });
     book.salePrice > 0 ? setSale(true) : setSale(false);
     //item load
-  }, [route, onHandlerOrder]);
+  }, [state.Overread, onHandlerOrder]);
   //Create Order
   const onHandlerOrder = (bookID, ordercount, token) => {
     Alert.alert(`${book.bookname} 📖`, `Авах тоо: (${ordercount} ширхэг)`, [
@@ -93,12 +93,20 @@ export default ({ route }) => {
     <ScrollView style={css.container}>
       <View style={css.contain}>
         <View style={[css.containheader, css.contain1]}>
-          <Image
-            style={{ ...css.image }}
-            source={{
-              uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${book.photo}&w=400`,
-            }}
-          />
+          {book.photo !== "no-photo.png" ? (
+            <Image
+              style={css.image}
+              source={{
+                uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${book.photo}&w=400`,
+              }}
+            />
+          ) : (
+            <Image
+              style={css.image}
+              source={require("./../assets/image/upload/Book/no-photo.png")}
+            />
+          )}
+
           <View style={css.bookinfo}>
             <Text
               style={{

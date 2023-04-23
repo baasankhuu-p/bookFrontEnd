@@ -16,7 +16,12 @@ import {
 } from "@expo/vector-icons";
 
 import UserContext from "../../context/userContext";
-import { BackgroundBlueColor, CustomLight, HBColor } from "../../Constants";
+import {
+  BackgroundBlueColor,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+} from "../../Constants";
 import { getTextSubst } from "../../utils/functions";
 import { deleteCustomer, getCustomers } from "../../service/admin/useCustomer";
 
@@ -267,8 +272,7 @@ const css = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    borderWidth: 0.2,
-    borderColor: HBColor,
+    backgroundColor: CustomLight,
     borderRadius: 5,
     marginHorizontal: 5,
     marginVertical: 2,
@@ -277,15 +281,14 @@ const css = StyleSheet.create({
   },
   itemTitle: {
     paddingVertical: 10,
-    marginTop: 0,
     backgroundColor: HBColor,
   },
   infoitem: {
     color: HBColor,
     fontSize: 11,
-    fontWeight: "bold",
   },
   infoTitle: {
+    fontWeight: "bold",
     color: CustomLight,
     fontSize: 13,
   },
@@ -297,8 +300,6 @@ const css = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: CustomLight,
     borderRadius: 20,
-    borderWidth: 5,
-    borderColor: HBColor,
     color: HBColor,
   },
   titlesmall: {
@@ -311,9 +312,9 @@ const css = StyleSheet.create({
   modalInnerContainer: {
     marginVertical: 5,
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
-    borderColor: HBColor,
+    borderColor: OCustomGray,
   },
   modalTxt: {
     fontSize: 14,

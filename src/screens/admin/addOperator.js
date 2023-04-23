@@ -1,9 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/userContext";
-import { ScrollView, StyleSheet, View, Image, Text } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  SafeAreaView,
+  StatusBar,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
+import {
+  CustomBlue,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+  BackgroundBlueColor,
+} from "../../Constants";
 import MyTextInput from "../../components/MyTextInput";
 import MyTouchableBtn from "../../components/MyToachableBtn";
 import { createOperator } from "../../service/admin/useOperator";
@@ -46,61 +60,64 @@ export default ({}) => {
     navigation.goBack();
   };
   return (
-    <ScrollView style={css.container}>
-      <View style={css.profile}>
-        <Image
-          style={css.image}
-          source={require("../../assets/image/png/adduser.png")}
-        />
-        <Text style={css.username}>Ажилтан бүртгэх</Text>
-      </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: BackgroundBlueColor }}>
+      <StatusBar backgroundColor={{ HBColor }} />
+      <ScrollView style={css.container}>
+        <View style={css.profile}>
+          <Image
+            style={css.image}
+            source={require("../../assets/image/png/adduser.png")}
+          />
+          <Text style={css.username}>Ажилтан бүртгэх</Text>
+        </View>
 
-      <View style={{ marginTop: 10 }}>
-        <MyTextInput
-          onChangeText={setUsername}
-          value={username}
-          autoCapitalize="none"
-          iconname="person-outline"
-          placeholder="Ажилтны нэр"
-        />
-        <MyTextInput
-          onChangeText={setEmail}
-          value={email}
-          autoCapitalize="none"
-          iconname="md-mail-open-outline"
-          placeholder="Ажилтны е-мейл"
-        />
-        <MyTextInput
-          onChangeText={setPhone}
-          value={phone}
-          iconname="call-outline"
-          keyboardType="numeric"
-          placeholder="Ажилтны холбоо барих дугаар"
-        />
-        <MyTextInput
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          secureTextEntry={true}
-          placeholder="Нэвтрэх нууц үг"
-          value={password}
-          iconname="build-outline"
-        />
-      </View>
-      <View style={{ marginTop: 10 }}>
-        <MyTouchableBtn
-          iconname="add-circle-outline"
-          btncss={{ backgroundColor: CustomBlue }}
-          title="Нэмэх"
-          onPress={saveHandler}
-        />
-        <MyTouchableBtn
-          iconname="arrow-back-circle"
-          btncss={{ backgroundColor: "orange" }}
-          title="Буцах"
-          onPress={cancelHandler}
-        />
-      </View>
-    </ScrollView>
+        <View style={{ marginTop: 10 }}>
+          <MyTextInput
+            onChangeText={setUsername}
+            value={username}
+            autoCapitalize="none"
+            iconname="person-outline"
+            placeholder="Ажилтны нэр"
+          />
+          <MyTextInput
+            onChangeText={setEmail}
+            value={email}
+            autoCapitalize="none"
+            iconname="md-mail-open-outline"
+            placeholder="Ажилтны е-мейл"
+          />
+          <MyTextInput
+            onChangeText={setPhone}
+            value={phone}
+            iconname="call-outline"
+            keyboardType="numeric"
+            placeholder="Ажилтны холбоо барих дугаар"
+          />
+          <MyTextInput
+            onChangeText={setPassword}
+            autoCapitalize="none"
+            secureTextEntry={true}
+            placeholder="Нэвтрэх нууц үг"
+            value={password}
+            iconname="build-outline"
+          />
+        </View>
+        <View style={{ marginTop: 10 }}>
+          <MyTouchableBtn
+            iconname="add-circle-outline"
+            btncss={{ backgroundColor: CustomBlue }}
+            title="Нэмэх"
+            onPress={saveHandler}
+          />
+          <MyTouchableBtn
+            iconname="arrow-back-circle"
+            btncss={{ backgroundColor: "orange" }}
+            title="Буцах"
+            onPress={cancelHandler}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 const css = StyleSheet.create({
@@ -108,7 +125,6 @@ const css = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: OCustomGray,
-    marginTop: 20,
   },
   profile: {
     flex: 1,

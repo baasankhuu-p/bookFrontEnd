@@ -1,37 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
-import UserContext from "../../../context/userContext";
-import { getBooks } from "../../../service/useBooks";
-const thousandify = require("thousandify");
 import {
-  Button,
-  Modal,
   ScrollView,
   StyleSheet,
   Text,
   ToastAndroid,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import {
+  MaterialCommunityIcons,
+  FontAwesome,
+  Ionicons,
+} from "@expo/vector-icons";
+const thousandify = require("thousandify");
+import Modal from "react-native-modal";
+import UserContext from "../../../context/userContext";
+import { deleteBooks, getBooks } from "../../../service/useBooks";
+import {
   BackgroundBlueColor,
-  CustomBrown,
   CustomLight,
   HBColor,
-  OCustomBrown,
   OCustomGray,
 } from "../../../Constants";
 import SearchBook from "../../../components/SearchBook";
 import { getTextSubst } from "../../../utils/functions";
 import Spinner from "../../../components/useComponent/Spinner";
+import { useNavigation } from "@react-navigation/native";
 export default () => {
   const state = useContext(UserContext);
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [books, setBooks] = useState([]);
   const [bookitem, setBookitem] = useState(null);
-  const [visible, setVisible] = useState(false);
+  const [removeItem, setRemoveItem] = useState(null);
+  const [editItem, setEditItem] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
+    setBooks([]);
     getBooks()
       .then((result) => {
         setLoading(false);
@@ -53,34 +62,70 @@ export default () => {
   }, [state.Overread]);
   const filterBooks = books.filter((el) => el.bookname.includes(searchValue));
 
+  //Nomiin delgerengui
   const onBookDetails = (item) => {
     setBookitem(item);
     if (bookitem) {
-      console.log(bookitem);
+      setIsVisible(true);
     }
   };
+  //Nomiin medeelliig oorcloh
+  const editBook = (item) => {
+    navigation.navigate("Ном", { screen: "EditBooks", params: { data: item } });
+    visibleClose();
+  };
+
+  //Nomiig ustgeh
+  const removeBook = (item) => {
+    setRemoveItem(item);
+    if (removeItem) {
+      visibleClose();
+      Alert.alert(`Анхаар !`, `'${item.bookname}' энэ номыг устгах уу`, [
+        {
+          text: "Устга",
+          onPress: () =>
+            deleteBooks(state.token, item._id)
+              .then((result) => {
+                state.setOverread(!state.Overread);
+                visibleClose();
+                ToastAndroid.show("Ном устгагдлаа", ToastAndroid.SHORT);
+              })
+              .catch((err) => {
+                ToastAndroid.show(
+                  `Ном устгах явцад алдаа гарлаа: ${
+                    err.response.data.message
+                      ? err.response.data.message
+                      : err.message
+                  }`,
+                  ToastAndroid.SHORT
+                );
+              }),
+        },
+        {
+          text: "Болих",
+        },
+      ]);
+      setRemoveItem(null);
+    }
+  };
+  //Modal tsonh haah
   const visibleClose = () => {
+    setIsVisible(false);
     setBookitem(null);
   };
   return (
     <>
       {bookitem && (
-        <Modal isVisible={true}>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              backgroundColor: OCustomGray,
-            }}
-          >
+        <>
+          <Modal isVisible={isVisible}>
             <TouchableOpacity onPress={visibleClose}>
               <FontAwesome
                 name="remove"
                 size={25}
                 style={{
-                  color: HBColor,
+                  color: CustomLight,
                   position: "absolute",
-                  right: 10,
+                  left: 5,
                   bottom: 5,
                 }}
               />
@@ -88,6 +133,7 @@ export default () => {
             <View style={modalcss.modalContainer}>
               <View>
                 <Text style={modalcss.titlesmall}>Номын мэдээлэл</Text>
+
                 <View style={modalcss.modalInnerContainer}>
                   <Text style={{ ...modalcss.modalTxt }}>
                     Категорын нэр: {bookitem.category.name}
@@ -122,9 +168,13 @@ export default () => {
                   </Text>
                 </View>
                 <View style={modalcss.buttons}>
-                  <TouchableOpacity onPress={() => {}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      editBook(bookitem);
+                    }}
+                  >
                     <MaterialCommunityIcons
-                      name="account-edit-outline"
+                      name="book-edit-outline"
                       size={25}
                       style={{
                         ...modalcss.editremove,
@@ -132,9 +182,13 @@ export default () => {
                       }}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => {}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      removeBook(bookitem);
+                    }}
+                  >
                     <MaterialCommunityIcons
-                      name="account-remove-outline"
+                      name="book-remove-outline"
                       size={25}
                       style={{
                         ...modalcss.editremove,
@@ -145,8 +199,8 @@ export default () => {
                 </View>
               </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
+        </>
       )}
       <View style={css.container}>
         <View style={css.innerContainer}>
@@ -162,8 +216,6 @@ export default () => {
           />
           <Text style={css.count}>Нийт: {books.length}</Text>
         </View>
-        {loading && <Spinner />}
-
         <ScrollView>
           <View style={{ ...css.item, backgroundColor: HBColor }}>
             <Text
@@ -180,7 +232,7 @@ export default () => {
                 ...css.contenttitle,
               }}
             >
-              Тоо/ш
+              Тоо(ш)
             </Text>
             <Text
               style={{
@@ -188,7 +240,7 @@ export default () => {
                 ...css.contenttitle,
               }}
             >
-              Үнэ/₮
+              Үнэ(₮)
             </Text>
             <Text
               style={{
@@ -198,7 +250,20 @@ export default () => {
             >
               Огноо
             </Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Ном", { screen: "addBooks" })}
+              style={{
+                width: "6%",
+              }}
+            >
+              <Ionicons
+                name="md-add-circle-outline"
+                size={20}
+                color={CustomLight}
+              />
+            </TouchableOpacity>
           </View>
+          {loading && <Spinner />}
           {filterBooks &&
             filterBooks.length > 0 &&
             filterBooks.map((item, index) => {
@@ -291,13 +356,12 @@ const css = StyleSheet.create({
     width: "5%",
   },
 });
-
 const modalcss = StyleSheet.create({
   modalContainer: {
-    flex: 0.65,
+    flex: 0.7,
     flexDirection: "column",
     justifyContent: "center",
-    paddingHorizontal: 15,
+    paddingHorizontal: 25,
     marginHorizontal: 10,
     backgroundColor: CustomLight,
     borderRadius: 20,
@@ -306,16 +370,16 @@ const modalcss = StyleSheet.create({
   titlesmall: {
     fontWeight: "bold",
     textTransform: "capitalize",
-    fontSize: 18,
+    fontSize: 16,
     color: HBColor,
     textAlign: "center",
   },
   modalInnerContainer: {
     marginVertical: 5,
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
-    borderColor: HBColor,
+    borderColor: OCustomGray,
   },
   modalTxt: {
     fontSize: 12,

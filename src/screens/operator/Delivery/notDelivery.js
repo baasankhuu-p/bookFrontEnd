@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  FlatList,
   ToastAndroid,
 } from "react-native";
 import Modal from "react-native-modal";
@@ -19,9 +18,13 @@ import {
   getNotDelivery,
 } from "../../../service/operator/useDelivery";
 import { DeliveryNull } from "../../../components/useComponent/notfound";
-import { BackgroundBlueColor, CustomLight, HBColor } from "../../../Constants";
+import {
+  BackgroundBlueColor,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+} from "../../../Constants";
 import { getTextSubst } from "../../../utils/functions";
-import Spinner from "../../../components/useComponent/Spinner";
 
 export default () => {
   const state = useContext(UserContext);
@@ -169,6 +172,16 @@ export default () => {
             <View style={css.innerContainer}>
               <Text style={css.count}>Нийт: {deliveries.length}</Text>
             </View>
+            <View style={{ ...css.item, backgroundColor: HBColor }}>
+              <Text style={[css.infotitle, css.fname]}>Нэр</Text>
+              <Text style={[css.infotitle, css.phone]}>Дугаар</Text>
+              <Text
+                style={[css.infotitle, css.rndcode, { color: CustomLight }]}
+              >
+                Гүйлгээний дугаар
+              </Text>
+              <Text style={[css.infotitle, css.date]}>Огноо</Text>
+            </View>
             {deliveries.map((item, index) => {
               return (
                 //Grid
@@ -177,17 +190,21 @@ export default () => {
                   onPress={() => onHandlerDlvr({ data: item })}
                 >
                   <View style={css.item}>
-                    <Text style={css.fname}>
-                      {item.Orderdata.CustomerId.fname}
+                    <Text style={[css.infocss, css.fname]}>
+                      {item.Orderdata.CustomerId.lname.charAt(0)}.{" "}
+                      {getTextSubst(item.Orderdata.CustomerId.fname, 10)}
                     </Text>
-                    <Text style={css.phone}>
+                    <Text style={[css.infocss, css.phone]}>
                       {item.Orderdata.CustomerId.phone}
                     </Text>
-                    <Text style={css.date}>
+                    <Text style={[css.infocss, css.rndcode]}>
+                      ({item.Orderdata.PaymentID.PaymentRndID})
+                    </Text>
+                    <Text style={[css.infocss, css.date]}>
                       {item.Orderdata.OrderDate.split("T")[0]}
                     </Text>
                     <MaterialCommunityIcons
-                      style={css.delIcon}
+                      style={[css.infocss, css.delIcon]}
                       name="truck-delivery-outline"
                       size={18}
                     />
@@ -229,37 +246,43 @@ const css = StyleSheet.create({
   },
   item: {
     flexDirection: "row",
-    justifyContent: "space-around",
     alignItems: "center",
-    borderWidth: 0.2,
-    borderColor: HBColor,
+    backgroundColor: CustomLight,
     borderRadius: 5,
-    marginHorizontal: 10,
-    marginVertical: 5,
+    marginHorizontal: 5,
+    marginVertical: 1,
     paddingVertical: 10,
-    paddingHorizontal: 5,
+  },
+  infotitle: {
+    paddingHorizontal: 1,
+    color: CustomLight,
+    fontSize: 11,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+
+  infocss: {
+    paddingHorizontal: 1,
+    color: HBColor,
+    fontSize: 11,
+    textAlign: "center",
   },
   fname: {
-    color: HBColor,
-    fontWeight: "bold",
-    fontSize: 13,
     textTransform: "capitalize",
+    width: "24%",
   },
   phone: {
-    color: HBColor,
-    fontSize: 13,
+    width: "16%",
   },
-  address: {
-    color: HBColor,
-    fontSize: 13,
+  rndcode: {
+    color: "green",
+    width: "30%",
   },
   date: {
-    color: HBColor,
-    fontSize: 12,
+    width: "20%",
   },
   delIcon: {
-    color: HBColor,
-    fontSize: 20,
+    width: "10%",
   },
 });
 
@@ -272,8 +295,6 @@ const modalcss = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: CustomLight,
     borderRadius: 20,
-    borderWidth: 5,
-    borderColor: HBColor,
     color: HBColor,
   },
   titlesmall: {
@@ -289,7 +310,7 @@ const modalcss = StyleSheet.create({
     padding: 10,
     borderWidth: 2,
     borderRadius: 10,
-    borderColor: HBColor,
+    borderColor: OCustomGray,
   },
   txtStyle: {
     fontSize: 12,
@@ -308,7 +329,6 @@ const modalcss = StyleSheet.create({
     height: 100,
     borderRadius: 5,
   },
-  delimage: {},
   bookname: {
     textAlign: "center",
     fontSize: 10,

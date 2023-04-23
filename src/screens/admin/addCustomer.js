@@ -7,10 +7,18 @@ import {
   Image,
   Text,
   ToastAndroid,
+  StatusBar,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
+import {
+  CustomBlue,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+  BackgroundBlueColor,
+} from "../../Constants";
 import MyTextInput from "../../components/MyTextInput";
 import MyTouchableBtn from "../../components/MyToachableBtn";
 import { createCustomer } from "../../service/admin/useCustomer";
@@ -57,77 +65,80 @@ export default ({}) => {
     navigation.goBack();
   };
   return (
-    <ScrollView style={css.container}>
-      <View style={css.profile}>
-        <Image
-          style={css.image}
-          source={require("../../assets/image/png/adduser.png")}
-        />
-        <Text style={css.username}>Үйлчлүүлэгч бүртгэх</Text>
-      </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: BackgroundBlueColor }}>
+      <StatusBar backgroundColor={HBColor} />
+      <ScrollView style={css.container}>
+        <View style={css.profile}>
+          <Image
+            style={css.image}
+            source={require("../../assets/image/png/adduser.png")}
+          />
+          <Text style={css.username}>Үйлчлүүлэгч бүртгэх</Text>
+        </View>
 
-      <View style={{ marginTop: 10 }}>
-        <MyTextInput
-          onChangeText={setLname}
-          autoCapitalize="none"
-          placeholder="Эцгийн нэрээ оруулна уу"
-          value={lname}
-          iconname="person-outline"
-        />
-        <MyTextInput
-          onChangeText={setFname}
-          autoCapitalize="none"
-          placeholder="Нэрээ оруулна уу"
-          value={fname}
-          iconname="person-outline"
-        />
-        <MyTextInput
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          placeholder="Имейл хаягаа оруулна уу"
-          value={email}
-          iconname="md-mail-open-outline"
-        />
-        <MyTextInput
-          onChangeText={setPhone}
-          autoCapitalize="none"
-          keyboardType="phone-pad"
-          placeholder="Утасны дугаараа оруулна уу"
-          value={phone}
-          iconname="call-outline"
-        />
-        <MyTextInput
-          onChangeText={setAddress}
-          autoCapitalize="none"
-          placeholder="Гэрийн хаягаа оруулна уу"
-          value={address}
-          iconname="location-outline"
-        />
-        <MyTextInput
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          secureTextEntry={true}
-          placeholder="Нууц үгээ оруулна уу"
-          value={password}
-          iconname="build-outline"
-        />
-      </View>
-      <View style={{ marginTop: 10 }}>
-        <MyTouchableBtn
-          iconname="add-circle-outline"
-          btncss={{ backgroundColor: CustomBlue }}
-          title="Нэмэх"
-          onPress={saveHandler}
-        />
-        <MyTouchableBtn
-          iconname="arrow-back-circle"
-          btncss={{ backgroundColor: "orange" }}
-          title="Буцах"
-          onPress={cancelHandler}
-        />
-      </View>
-    </ScrollView>
+        <View style={{ marginTop: 10 }}>
+          <MyTextInput
+            onChangeText={setLname}
+            autoCapitalize="none"
+            placeholder="Эцгийн нэрээ оруулна уу"
+            value={lname}
+            iconname="person-outline"
+          />
+          <MyTextInput
+            onChangeText={setFname}
+            autoCapitalize="none"
+            placeholder="Нэрээ оруулна уу"
+            value={fname}
+            iconname="person-outline"
+          />
+          <MyTextInput
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            placeholder="Имейл хаягаа оруулна уу"
+            value={email}
+            iconname="md-mail-open-outline"
+          />
+          <MyTextInput
+            onChangeText={setPhone}
+            autoCapitalize="none"
+            keyboardType="phone-pad"
+            placeholder="Утасны дугаараа оруулна уу"
+            value={phone}
+            iconname="call-outline"
+          />
+          <MyTextInput
+            onChangeText={setAddress}
+            autoCapitalize="none"
+            placeholder="Гэрийн хаягаа оруулна уу"
+            value={address}
+            iconname="location-outline"
+          />
+          <MyTextInput
+            onChangeText={setPassword}
+            autoCapitalize="none"
+            secureTextEntry={true}
+            placeholder="Нууц үгээ оруулна уу"
+            value={password}
+            iconname="build-outline"
+          />
+        </View>
+        <View style={{ marginTop: 10 }}>
+          <MyTouchableBtn
+            iconname="add-circle-outline"
+            btncss={{ backgroundColor: CustomBlue }}
+            title="Нэмэх"
+            onPress={saveHandler}
+          />
+          <MyTouchableBtn
+            iconname="arrow-back-circle"
+            btncss={{ backgroundColor: "orange" }}
+            title="Буцах"
+            onPress={cancelHandler}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 const css = StyleSheet.create({
@@ -135,7 +146,6 @@ const css = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: OCustomGray,
-    marginTop: 20,
   },
   profile: {
     flex: 1,

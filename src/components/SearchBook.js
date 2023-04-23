@@ -3,7 +3,13 @@ import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { CustomBlue, HBColor, OCustomGray } from "../Constants";
 
-export default ({ value, onValueChange, onFinishEnter, customstyle = "" }) => {
+export default ({
+  value,
+  onValueChange,
+  onFinishEnter,
+  customstyle = "",
+  placeholder,
+}) => {
   return (
     <View style={{ ...css.container, ...customstyle }}>
       <View style={css.iconContainer}>
@@ -11,7 +17,7 @@ export default ({ value, onValueChange, onFinishEnter, customstyle = "" }) => {
       </View>
       <TextInput
         style={css.input}
-        placeholder="Ном хайх .."
+        placeholder={placeholder ? placeholder : "Ном хайх .."}
         value={value}
         onChangeText={onValueChange}
         placeholderTextColor={HBColor}

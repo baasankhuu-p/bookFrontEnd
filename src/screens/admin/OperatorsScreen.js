@@ -17,7 +17,12 @@ import {
 
 import UserContext from "../../context/userContext";
 import { deleteOperator, getOperators } from "../../service/admin/useOperator";
-import { BackgroundBlueColor, CustomLight, HBColor } from "../../Constants";
+import {
+  BackgroundBlueColor,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+} from "../../Constants";
 import { getTextSubst } from "../../utils/functions";
 
 export default () => {
@@ -246,13 +251,12 @@ const css = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    borderWidth: 0.2,
-    borderColor: HBColor,
     borderRadius: 5,
     marginHorizontal: 5,
     marginVertical: 2,
     paddingVertical: 5,
     paddingHorizontal: 2,
+    backgroundColor: CustomLight,
   },
   itemTitle: {
     paddingVertical: 10,
@@ -262,9 +266,9 @@ const css = StyleSheet.create({
   infoitem: {
     color: HBColor,
     fontSize: 11,
-    fontWeight: "bold",
   },
   infoTitle: {
+    fontWeight: "bold",
     color: CustomLight,
     fontSize: 13,
   },
@@ -276,8 +280,6 @@ const css = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: CustomLight,
     borderRadius: 20,
-    borderWidth: 5,
-    borderColor: HBColor,
     color: HBColor,
   },
   titlesmall: {
@@ -290,9 +292,9 @@ const css = StyleSheet.create({
   modalInnerContainer: {
     marginVertical: 5,
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
-    borderColor: HBColor,
+    borderColor: OCustomGray,
   },
   modalTxt: {
     fontSize: 14,

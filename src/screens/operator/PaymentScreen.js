@@ -36,8 +36,8 @@ export default () => {
             }}
           >
             <Text style={[css.infotitle, css.phone]}>Дугаар</Text>
-            <Text style={[css.infotitle, css.rndmCount]}>Гүйлгээ/утга</Text>
-            <Text style={[css.infotitle, css.price]}>Үнэ/₮</Text>
+            <Text style={[css.infotitle, css.rndmCount]}>Гүйлгээ(утга)</Text>
+            <Text style={[css.infotitle, css.price]}>Үнэ(₮)</Text>
             <Text style={[css.infotitle, css.date]}>Огноо</Text>
             <Text style={{ ...css.infoitem }}></Text>
           </View>

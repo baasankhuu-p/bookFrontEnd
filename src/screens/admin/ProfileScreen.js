@@ -9,9 +9,17 @@ import {
   Image,
   Alert,
   TouchableOpacity,
+  StatusBar,
+  SafeAreaView,
 } from "react-native";
 import { Feather, AntDesign } from "@expo/vector-icons";
-import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
+import {
+  CustomBlue,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+  BackgroundBlueColor,
+} from "../../Constants";
 import MyLbl from "../../components/MyLbl";
 import MyTouchableBtn from "../../components/MyToachableBtn";
 export default () => {
@@ -36,7 +44,8 @@ export default () => {
     navigation.navigate("EditProfile");
   };
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: BackgroundBlueColor }}>
+      <StatusBar backgroundColor={HBColor} />
       {state.userInfo && state.userInfo.CreatedDate && (
         <ScrollView style={css.container}>
           <View style={css.profile}>
@@ -67,7 +76,7 @@ export default () => {
           />
         </ScrollView>
       )}
-    </>
+    </SafeAreaView>
   );
 };
 const css = StyleSheet.create({
@@ -75,7 +84,6 @@ const css = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: OCustomGray,
-    marginTop: 25,
   },
   profile: {
     flex: 1,

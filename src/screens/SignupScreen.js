@@ -1,5 +1,14 @@
 import React, { useContext, useState } from "react";
-import { Text, Image, StyleSheet, ScrollView, View } from "react-native";
+import {
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  View,
+  StatusBar,
+  ToastAndroid,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
   CustomBlue,
@@ -10,7 +19,6 @@ import {
 import { MyTextInput } from "../components";
 import MyToachableBtn from "../components/MyToachableBtn";
 import UserContext from "../context/userContext";
-import { ToastAndroid } from "react-native";
 export default () => {
   const navigation = useNavigation();
   const [lastName, setLastname] = useState("testLastName");
@@ -39,85 +47,88 @@ export default () => {
     state.signup(firstName, lastName, email, phone, password, address);
   };
   return (
-    <ScrollView style={css.container}>
-      <Image
-        style={css.image}
-        source={require("../assets/image/png/Signup.png")}
-      />
-      <View style={{ margin: 4 }}>
-        <Text style={css.heading}>
-          Онлайн номын дэлгүүрт тавтай морилно уу.
-        </Text>
-        <MyTextInput
-          onChangeText={setLastname}
-          autoCapitalize="none"
-          placeholder="Эцгийн нэрээ оруулна уу"
-          value={lastName}
-          iconname="person-outline"
+    <SafeAreaView style={{ flex: 1, backgroundColor: BackgroundBlueColor }}>
+      <StatusBar backgroundColor={HBColor} />
+      <ScrollView style={css.container}>
+        <Image
+          style={css.image}
+          source={require("../assets/image/png/Signup.png")}
         />
-        <MyTextInput
-          onChangeText={setFirstname}
-          autoCapitalize="none"
-          placeholder="Нэрээ оруулна уу"
-          value={firstName}
-          iconname="person-outline"
-        />
-        <MyTextInput
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          placeholder="Имейл хаягаа оруулна уу"
-          value={email}
-          iconname="md-mail-open-outline"
-        />
-        <MyTextInput
-          onChangeText={setPhone}
-          autoCapitalize="none"
-          keyboardType="phone-pad"
-          placeholder="Утасны дугаараа оруулна уу"
-          value={phone}
-          iconname="call-outline"
-        />
-        <MyTextInput
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          secureTextEntry={true}
-          placeholder="Нууц үгээ оруулна уу"
-          value={password}
-          iconname="build-outline"
-        />
-        <MyTextInput
-          onChangeText={setConfirmPass}
-          autoCapitalize="none"
-          secureTextEntry={true}
-          placeholder="Дахин нууц үгээ оруулна уу"
-          value={confirmPass}
-          iconname="build-outline"
-        />
-        <MyTextInput
-          onChangeText={setAddress}
-          autoCapitalize="none"
-          placeholder="Гэрийн хаягаа оруулна уу"
-          value={address}
-          iconname="location-outline"
-        />
-        <MyToachableBtn
-          iconname="add-circle-outline"
-          btncss={{ backgroundColor: CustomBlue }}
-          title="БҮРТГҮҮЛЭХ"
-          onPress={onHandlerSignup}
-        />
+        <View style={{ margin: 4 }}>
+          <Text style={css.heading}>
+            Онлайн номын дэлгүүрт тавтай морилно уу.
+          </Text>
+          <MyTextInput
+            onChangeText={setLastname}
+            autoCapitalize="none"
+            placeholder="Эцгийн нэрээ оруулна уу"
+            value={lastName}
+            iconname="person-outline"
+          />
+          <MyTextInput
+            onChangeText={setFirstname}
+            autoCapitalize="none"
+            placeholder="Нэрээ оруулна уу"
+            value={firstName}
+            iconname="person-outline"
+          />
+          <MyTextInput
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            placeholder="Имейл хаягаа оруулна уу"
+            value={email}
+            iconname="md-mail-open-outline"
+          />
+          <MyTextInput
+            onChangeText={setPhone}
+            autoCapitalize="none"
+            keyboardType="phone-pad"
+            placeholder="Утасны дугаараа оруулна уу"
+            value={phone}
+            iconname="call-outline"
+          />
+          <MyTextInput
+            onChangeText={setPassword}
+            autoCapitalize="none"
+            secureTextEntry={true}
+            placeholder="Нууц үгээ оруулна уу"
+            value={password}
+            iconname="build-outline"
+          />
+          <MyTextInput
+            onChangeText={setConfirmPass}
+            autoCapitalize="none"
+            secureTextEntry={true}
+            placeholder="Дахин нууц үгээ оруулна уу"
+            value={confirmPass}
+            iconname="build-outline"
+          />
+          <MyTextInput
+            onChangeText={setAddress}
+            autoCapitalize="none"
+            placeholder="Гэрийн хаягаа оруулна уу"
+            value={address}
+            iconname="location-outline"
+          />
+          <MyToachableBtn
+            iconname="add-circle-outline"
+            btncss={{ backgroundColor: CustomBlue }}
+            title="БҮРТГҮҮЛЭХ"
+            onPress={onHandlerSignup}
+          />
 
-        <MyToachableBtn
-          iconname="log-in-outline"
-          btncss={{ backgroundColor: "orange" }}
-          title="НЭВТРЭХ"
-          onPress={() => {
-            navigation.navigate("Signin");
-          }}
-        />
-      </View>
-    </ScrollView>
+          <MyToachableBtn
+            iconname="log-in-outline"
+            btncss={{ backgroundColor: "orange" }}
+            title="НЭВТРЭХ"
+            onPress={() => {
+              navigation.navigate("Signin");
+            }}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -125,7 +136,6 @@ const css = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    marginTop: 20,
     backgroundColor: BackgroundBlueColor,
   },
   image: {

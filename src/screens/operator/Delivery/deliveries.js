@@ -13,7 +13,12 @@ const thousandify = require("thousandify");
 import UserContext from "../../../context/userContext";
 import { getConfirmDelivery } from "../../../service/operator/useDelivery";
 import { DeliveryNull } from "../../../components/useComponent/notfound";
-import { BackgroundBlueColor, CustomLight, HBColor } from "../../../Constants";
+import {
+  BackgroundBlueColor,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+} from "../../../Constants";
 import { getTextSubst } from "../../../utils/functions";
 
 export default () => {
@@ -103,12 +108,19 @@ export default () => {
                         {ditem.Orderdata.map((item, index) => {
                           return (
                             <View style={modalcss.imageItem} key={index}>
-                              <Image
-                                style={modalcss.image}
-                                source={{
-                                  uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${item.BookId.photo}&w=400`,
-                                }}
-                              />
+                              {item.BookId.photo !== "no-photo.png" ? (
+                                <Image
+                                  style={modalcss.image}
+                                  source={{
+                                    uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${item.BookId.photo}&w=400`,
+                                  }}
+                                />
+                              ) : (
+                                <Image
+                                  style={modalcss.image}
+                                  source={require("../../../assets/image/upload/Book/no-photo.png")}
+                                />
+                              )}
                               <Text style={modalcss.bookname}>
                                 {getTextSubst(item.BookId.bookname, 25)}
                               </Text>
@@ -130,6 +142,13 @@ export default () => {
             <View style={css.innerContainer}>
               <Text style={css.count}>Нийт: {deliveries.length}</Text>
             </View>
+
+            <View style={{ ...css.item, backgroundColor: HBColor }}>
+              <Text style={[css.infotitle, css.fname]}>Нэр</Text>
+              <Text style={[css.infotitle, css.phone]}>Дугаар</Text>
+              <Text style={[css.infotitle, css.address]}>Хаяг</Text>
+              <Text style={[css.infotitle, css.date]}>Х/Огноо</Text>
+            </View>
             {deliveries.map((item, index) => {
               return (
                 //Grid
@@ -138,17 +157,24 @@ export default () => {
                   onPress={() => onHandlerDlvr({ data: item })}
                 >
                   <View style={css.item}>
-                    <Text style={css.fname}>
+                    <Text style={[css.infocss, css.fname]}>
+                      {item.delivery.CustomerId.lname.charAt(0)}.{" "}
                       {item.delivery.CustomerId.fname}
                     </Text>
-                    <Text style={css.phone}>
+                    <Text style={[css.infocss, css.phone]}>
                       {item.delivery.CustomerId.phone}
                     </Text>
-                    <Text style={css.date}>
+                    <Text style={[css.infocss, css.address]}>
+                      {getTextSubst(
+                        item.delivery.CustomerId.address,
+                        10
+                      ).toUpperCase()}
+                    </Text>
+                    <Text style={[css.infocss, css.date]}>
                       {item.delivery.DeliveryDate.split("T")[0]}
                     </Text>
                     <MaterialCommunityIcons
-                      style={css.delIcon}
+                      style={[css.infocss, css.delIcon]}
                       name="unfold-more-horizontal"
                       size={18}
                     />
@@ -190,37 +216,41 @@ const css = StyleSheet.create({
   },
   item: {
     flexDirection: "row",
-    justifyContent: "space-around",
     alignItems: "center",
-    borderWidth: 0.2,
-    borderColor: HBColor,
     borderRadius: 5,
     marginHorizontal: 10,
-    marginVertical: 5,
+    backgroundColor: CustomLight,
+    marginVertical: 1,
     paddingVertical: 10,
-    paddingHorizontal: 5,
+    paddingHorizontal: 2,
+  },
+  infotitle: {
+    color: CustomLight,
+    fontWeight: "bold",
+    fontSize: 12,
+    textAlign: "center",
+  },
+  infocss: {
+    paddingHorizontal: 1,
+    color: HBColor,
+    fontSize: 11,
+    textAlign: "center",
   },
   fname: {
-    color: HBColor,
-    fontWeight: "bold",
-    fontSize: 13,
     textTransform: "capitalize",
+    width: "24%",
   },
   phone: {
-    color: HBColor,
-    fontSize: 13,
+    width: "16%",
   },
   address: {
-    color: HBColor,
-    fontSize: 13,
+    width: "25%",
   },
   date: {
-    color: HBColor,
-    fontSize: 12,
+    width: "25%",
   },
   delIcon: {
-    color: HBColor,
-    fontSize: 20,
+    width: "10%",
   },
 });
 
@@ -233,8 +263,6 @@ const modalcss = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: CustomLight,
     borderRadius: 20,
-    borderWidth: 5,
-    borderColor: HBColor,
     color: HBColor,
   },
   titlesmall: {
@@ -250,7 +278,7 @@ const modalcss = StyleSheet.create({
     padding: 10,
     borderWidth: 2,
     borderRadius: 10,
-    borderColor: HBColor,
+    borderColor: OCustomGray,
   },
   txtStyle: {
     fontSize: 12,

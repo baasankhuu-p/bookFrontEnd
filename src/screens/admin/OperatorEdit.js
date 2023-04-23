@@ -5,14 +5,23 @@ import {
   StyleSheet,
   View,
   Image,
+  Text,
   ToastAndroid,
+  StatusBar,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
+import {
+  CustomBlue,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+  BackgroundBlueColor,
+} from "../../Constants";
 import MyTextInput from "../../components/MyTextInput";
 import MyTouchableBtn from "../../components/MyToachableBtn";
 import { updateOperator } from "../../service/admin/useOperator";
-import { Text } from "react-native";
+import FormText from "../../components/FormText";
 export default ({ route }) => {
   const state = useContext(UserContext);
   const data = route.params.data;
@@ -30,7 +39,7 @@ export default ({ route }) => {
     };
     updateOperator(state.token, item, data._id)
       .then((result) => {
-        ToastAndroid.show("Амжилттай хадгаллаа: ", ToastAndroid.SHORT);
+        ToastAndroid.show("Амжилттай хадгаллаа ", ToastAndroid.SHORT);
         state.setOverread(!state.Overread);
         navigation.goBack();
       })
@@ -49,7 +58,8 @@ export default ({ route }) => {
     navigation.goBack();
   };
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: BackgroundBlueColor }}>
+      <StatusBar backgroundColor={HBColor} />
       {data && data.CreatedDate && (
         <ScrollView style={css.container}>
           <View style={css.profile}>
@@ -99,7 +109,7 @@ export default ({ route }) => {
           </View>
         </ScrollView>
       )}
-    </>
+    </SafeAreaView>
   );
 };
 const css = StyleSheet.create({
@@ -107,7 +117,6 @@ const css = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: OCustomGray,
-    marginTop: 20,
   },
   profile: {
     flex: 1,

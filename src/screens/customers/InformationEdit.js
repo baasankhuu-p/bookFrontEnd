@@ -1,10 +1,23 @@
 import React, { useContext, useState } from "react";
 import UserContext from "../../context/userContext";
-import { ScrollView, StyleSheet, View, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Image,
+  StatusBar,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { updateCustomer } from "../../service/admin/useCustomer";
-import { CustomBlue, CustomLight, HBColor, OCustomGray } from "../../Constants";
+import {
+  CustomBlue,
+  CustomLight,
+  HBColor,
+  OCustomGray,
+  BackgroundBlueColor,
+} from "../../Constants";
 import MyTextInput from "../../components/MyTextInput";
 import MyTouchableBtn from "../../components/MyToachableBtn";
 export default () => {
@@ -42,7 +55,8 @@ export default () => {
     navigation.goBack();
   };
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: BackgroundBlueColor }}>
+      <StatusBar backgroundColor={HBColor} />
       {state.userInfo && state.userInfo.CreatedDate && (
         <ScrollView style={css.container}>
           <View style={css.profile}>
@@ -106,7 +120,7 @@ export default () => {
           </View>
         </ScrollView>
       )}
-    </>
+    </SafeAreaView>
   );
 };
 const css = StyleSheet.create({
@@ -114,7 +128,6 @@ const css = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: OCustomGray,
-    marginTop: 20,
   },
   profile: {
     flex: 1,

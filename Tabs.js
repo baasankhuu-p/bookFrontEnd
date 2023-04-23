@@ -24,7 +24,6 @@ import { HBColor } from "./src/Constants";
 import { IconName } from "./src/utils/functions";
 import UserContext from "./src/context/userContext";
 import SplashScreen from "./src/screens/SplashScreen";
-import { Text } from "react-native";
 const Tab = createBottomTabNavigator();
 export default ({ ref }) => {
   const state = useContext(UserContext);
@@ -103,7 +102,7 @@ export default ({ ref }) => {
               })}
             >
               <Tab.Screen name="Ном" component={opTab1} />
-              <Tab.Screen name="Категори" component={Text} />
+              <Tab.Screen name="Категори" component={opTab2} />
               <Tab.Screen name="Гүйлгээ" component={opTab3} />
               <Tab.Screen name="Хүргэлт" component={opTab4} />
               <Tab.Screen name="Ажилтан" component={opTab5} />
