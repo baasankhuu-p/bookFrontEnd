@@ -18,6 +18,7 @@ import {
   CustomLight,
   HBColor,
   OCustomGray,
+  RestApiUrl,
 } from "../../../Constants";
 import { getTextSubst } from "../../../utils/functions";
 
@@ -108,19 +109,16 @@ export default () => {
                         {ditem.Orderdata.map((item, index) => {
                           return (
                             <View style={modalcss.imageItem} key={index}>
-                              {item.BookId.photo !== "no-photo.png" ? (
-                                <Image
-                                  style={modalcss.image}
-                                  source={{
-                                    uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${item.BookId.photo}&w=400`,
-                                  }}
-                                />
-                              ) : (
-                                <Image
-                                  style={modalcss.image}
-                                  source={require("../../../assets/image/upload/Book/no-photo.png")}
-                                />
-                              )}
+                              <Image
+                                style={modalcss.image}
+                                source={{
+                                  uri: `${RestApiUrl}/upload/book/${
+                                    item.BookId.photo
+                                      ? item.BookId.photo
+                                      : "no-photo.png"
+                                  }`,
+                                }}
+                              />
                               <Text style={modalcss.bookname}>
                                 {getTextSubst(item.BookId.bookname, 25)}
                               </Text>

@@ -6,12 +6,8 @@ import {
   View,
   ScrollView,
   ToastAndroid,
-  Button,
-  Platform,
   Image,
   TouchableOpacity,
-  PermissionsAndroid,
-  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
@@ -30,12 +26,12 @@ export default () => {
   const [categories, setCategories] = useState([]);
 
   const [book, setBook] = useState({
-    bookname: "",
-    author: "",
-    content: "",
-    pages: "",
-    price: "",
-    count: "",
+    bookname: "Test1",
+    author: "test",
+    content: "testest",
+    pages: "20",
+    price: "20000",
+    count: "30",
     salePrice: 0,
     category: "",
     photo: null,
@@ -151,16 +147,18 @@ export default () => {
     )
       .then((result) => {
         const newBook = result.data.data;
-        console.log("===>newBook: >", newBook);
-
         const xhr = new XMLHttpRequest();
         const data = new FormData();
+        const filename = book.photo.substring(book.photo.lastIndexOf("/") + 1);
+        const fileExt = filename.split(".")[filename.split(".").length - 1];
+        console.log(filename, " ", fileExt);
         data.append("file", {
           uri: book.photo,
-          type: "image/jpg",
-          name: "test.jpg",
+          type: `image/${fileExt}`,
+          name: filename,
         });
         xhr.open("PUT", `${RestApiUrl}/api/books/${newBook._id}/photo`);
+        xhr.setRequestHeader("Authorization", `Bearer ${state.token}`);
         xhr.send(data);
         ToastAndroid.show(`Шинээр ном нэмэгдлээ`, ToastAndroid.SHORT);
         state.setOverread(!state.Overread);
@@ -178,7 +176,7 @@ export default () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [3, 4],
       quality: 1,
     });
     if (!result.canceled) {
@@ -241,7 +239,7 @@ export default () => {
             label="Номын нэр"
             placeholder="Номын нэр"
             icon="book-open"
-            value={book.name}
+            value={book.bookname}
             onChangeText={checkName}
             errorText="Номын нэрийн урт 5-25 тэмдэгтээс тогтоно."
             errorShow={error.bookname}

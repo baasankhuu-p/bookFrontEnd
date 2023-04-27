@@ -1,6 +1,6 @@
-export const RestApiUrl = "http://192.168.43.235:5001";
-// export const RestApiUrl = "http://192.168.8.22:5001";
-// export const RestApiUrl = "http://10.3.202.200:5001";
+// export const RestApiUrl = "http://192.168.43.235:5001";
+export const RestApiUrl = "http://192.168.8.27:5001";
+// export const RestApiUrl = "http://10.10.200.163:5001";
 
 export const ErrColor = "rgb(184, 61, 70)";
 export const BackgroundBlueColor = "rgb(236, 240, 241)";

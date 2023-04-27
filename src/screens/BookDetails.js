@@ -22,6 +22,7 @@ import {
   HBColor,
   HBWhite,
   OCustomGray,
+  RestApiUrl,
 } from "../Constants";
 import { getTextSubst } from "../utils/functions";
 import { GetComment, WriteComment } from "../service/customer/useComments";
@@ -93,20 +94,14 @@ export default ({ route }) => {
     <ScrollView style={css.container}>
       <View style={css.contain}>
         <View style={[css.containheader, css.contain1]}>
-          {book.photo !== "no-photo.png" ? (
-            <Image
-              style={css.image}
-              source={{
-                uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${book.photo}&w=400`,
-              }}
-            />
-          ) : (
-            <Image
-              style={css.image}
-              source={require("./../assets/image/upload/Book/no-photo.png")}
-            />
-          )}
-
+          <Image
+            style={css.image}
+            source={{
+              uri: `${RestApiUrl}/upload/book/${
+                book.photo ? book.photo : "no-photo.png"
+              }`,
+            }}
+          />
           <View style={css.bookinfo}>
             <Text
               style={{

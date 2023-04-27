@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FileSystem } from "react";
 import { TouchableOpacity, Image, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Star from "react-native-star-view";
 const thousandify = require("thousandify");
 import { getTextSubst } from "../utils/functions";
+import { RestApiUrl } from "../Constants";
 
 export default ({ book, style, textLen, content = { display: "none" } }) => {
   const navigation = useNavigation();
@@ -19,19 +20,10 @@ export default ({ book, style, textLen, content = { display: "none" } }) => {
   return (
     <View style={style.ViewFrame && style.ViewFrame}>
       <TouchableOpacity style={style.card} onPress={onPressHandler}>
-        {book.photo !== "no-photo.png" ? (
-          <Image
-            style={style.image}
-            source={{
-              uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${book.photo}&w=400`,
-            }}
-          />
-        ) : (
-          <Image
-            style={style.image}
-            source={require("./../assets/image/upload/Book/no-photo.png")}
-          />
-        )}
+        <Image
+          style={style.image}
+          source={{ uri: `${RestApiUrl}/upload/book/${book.photo}` }}
+        />
         {book.count ? (
           <Text style={style.count}>{book.count} ш </Text>
         ) : (

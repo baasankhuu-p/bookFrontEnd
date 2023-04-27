@@ -17,6 +17,7 @@ import {
   CustomLight,
   HBColor,
   OCustomGray,
+  RestApiUrl,
 } from "../../Constants";
 
 export default () => {
@@ -77,7 +78,9 @@ export default () => {
                     <Image
                       style={css.image}
                       source={{
-                        uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${item.Book.photo}&w=400`,
+                        uri: `${RestApiUrl}/upload/book/${
+                          item.Book.photo ? item.Book.photo : "no-photo.png"
+                        }`,
                       }}
                     />
                   )}

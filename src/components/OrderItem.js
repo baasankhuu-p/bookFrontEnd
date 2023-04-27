@@ -50,7 +50,9 @@ export default ({ item }) => {
         <Image
           style={css.image}
           source={{
-            uri: `https://book.mn/timthumb.php?src=https://book.mn/uploads/products/${item.Book.photo}&w=400`,
+            uri: `./../assets/image/upload/Book/${
+              item.Book.photo ? item.Book.photo : "no-photo.png"
+            }`,
           }}
         />
       </TouchableOpacity>
